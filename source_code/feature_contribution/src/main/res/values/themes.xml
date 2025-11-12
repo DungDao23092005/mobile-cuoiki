@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Tùy chỉnh màu/typography nếu cần -->
+        <item name="colorPrimary">#27AE60</item>
+        <item name="colorPrimaryVariant">#219150</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <!-- Nếu không dùng ActionBar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+</resources>

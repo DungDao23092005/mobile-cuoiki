@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/bottom_bar_bg"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bottom_bar_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <!-- FAB container: frame để vòng ngoài (ImageView) + nút thật (ImageButton) chồng chính giữa -->
+    <FrameLayout
+        android:id="@+id/fab_container"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:translationY="-24dp"
+        android:elevation="12dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+    <ImageView
+        android:id="@+id/fab_outer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/fab_outer_layer"
+        android:contentDescription=""
+        android:scaleType="centerCrop"
+        android:elevation="12dp" />
+
+    <ImageButton
+        android:id="@+id/fab_upload"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:background="@null"
+        android:src="@drawable/ic_upload"
+        android:tint="@android:color/white"
+        android:elevation="14dp"/>
+    </FrameLayout>
+
+    <!-- LEFT GROUP -->
+    <ImageButton
+        android:id="@+id/ic_home"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="14dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_home"
+        app:tint="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_bar_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ic_search"
+        app:layout_constraintHorizontal_chainStyle="spread" />
+
+    <ImageButton
+        android:id="@+id/ic_search"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="14dp"
+        android:layout_marginStart="12dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_search"
+        app:tint="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_bar_bg"
+        app:layout_constraintStart_toEndOf="@id/ic_home"
+        app:layout_constraintEnd_toStartOf="@id/fab_container" />
+
+    <!-- RIGHT GROUP -->
+    <ImageButton
+        android:id="@+id/ic_notifications"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="12dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_notifications"
+        app:tint="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_bar_bg"
+        app:layout_constraintStart_toEndOf="@id/fab_container"
+        app:layout_constraintEnd_toStartOf="@id/ic_profile"
+        app:layout_constraintHorizontal_chainStyle="spread" />
+
+    <ImageButton
+        android:id="@+id/ic_profile"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="20dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_person"
+        app:tint="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_bar_bg"
+        app:layout_constraintStart_toEndOf="@id/ic_notifications"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
