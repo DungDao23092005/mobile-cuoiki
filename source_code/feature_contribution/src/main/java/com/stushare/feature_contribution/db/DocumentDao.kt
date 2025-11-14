@@ -12,11 +12,11 @@ import com.stushare.feature_contribution.db.SavedDocumentEntity
 interface DocumentDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveDocument(doc: SavedDocumentEntity) // Lỗi cũ ở dòng 15
+    suspend fun saveDocument(doc: SavedDocumentEntity)
 
     @Query("SELECT * FROM saved_documents ORDER BY addedTimestamp DESC")
     fun getAllSavedDocuments(): Flow<List<SavedDocumentEntity>>
 
     @Query("DELETE FROM saved_documents WHERE documentId = :docId")
-    suspend fun unsaveDocument(docId: String) // Lỗi cũ ở dòng 19
+    suspend fun unsaveDocument(docId: String)
 }

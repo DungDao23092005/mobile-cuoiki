@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "904950763642",
+    "project_id": "stushare-12345",
+    "storage_bucket": "stushare-12345.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904950763642:android:3633a43fb87cac6fbcebc3",
+        "android_client_info": {
+          "package_name": "com.stushare.feature_contribution"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp7j6pDnlvkVwYE8Pg0ex5O_yIg82A5g8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
