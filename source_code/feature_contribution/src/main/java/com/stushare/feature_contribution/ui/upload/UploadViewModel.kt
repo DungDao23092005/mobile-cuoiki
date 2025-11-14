@@ -6,20 +6,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.stushare.feature_contribution.db.AppDatabase
 import com.stushare.feature_contribution.db.NotificationEntity
+import com.stushare.feature_contribution.db.SavedDocumentEntity // <--- THÊM
 import com.stushare.feature_contribution.ui.noti.NotificationItem
-// THÊM: Import Firebase và Coroutines
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.firestore
-import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 // 1. Kế thừa từ AndroidViewModel để lấy Application context
 class UploadViewModel(application: Application) : AndroidViewModel(application) {
@@ -27,8 +21,7 @@ class UploadViewModel(application: Application) : AndroidViewModel(application) 
     // 2. Khởi tạo Database và DAO
     private val database = AppDatabase.getInstance(application)
     private val notificationDao = database.notificationDao()
-    // THÊM: Khởi tạo Firestore
-    private val firestoreDb = Firebase.firestore
+    private val documentDao = database.savedDocumentDao() // <--- THÊM DAO CHO DOCUMENT
 
     // 3. Quản lý trạng thái loading
     private val _isUploading = MutableStateFlow(false)
@@ -45,32 +38,6 @@ class UploadViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     /**
-     * Hàm helper để chuyển thao tác Firebase bất đồng bộ thành suspend function.
-     */
-    private suspend fun saveDocumentMetadataToFirestore(
-        title: String,
-        description: String?
-    ): DocumentReference = suspendCoroutine { continuation ->
-        val documentMetadata = hashMapOf(
-            "title" to title,
-            "description" to description,
-            "authorId" to "user_001", // Giả định: Thay bằng Auth User ID thật sau
-            "uploadTime" to System.currentTimeMillis()
-        )
-
-        firestoreDb.collection("documents")
-            .add(documentMetadata)
-            .addOnSuccessListener { docRef ->
-                // Trả về DocumentReference khi thành công
-                continuation.resume(docRef)
-            }
-            .addOnFailureListener { e ->
-                // Gửi ngoại lệ nếu thất bại
-                continuation.resumeWithException(e)
-            }
-    }
-
-    /**
      * Hàm này được gọi từ Fragment khi bấm nút Upload.
      */
     fun handleUploadClick(title: String, description: String?) {
@@ -80,30 +47,39 @@ class UploadViewModel(application: Application) : AndroidViewModel(application) 
             try {
                 // --- BẮT ĐẦU LOGIC NGHIỆP VỤ ---
 
-                // 1. Giả lập việc upload file lên Storage (3s)
+                // 1. Giả lập việc upload (thay thế bằng logic upload thật sau)
                 delay(3000)
 
-                // 2. LƯU METADATA LÊN FIRESTORE (Dùng suspend fun)
-                val docRef = saveDocumentMetadataToFirestore(title, description)
+                // 2. THÊM: TẠO VÀ LƯU THÔNG TIN TÀI LIỆU VÀO ROOM DATABASE
+                val newDocument = SavedDocumentEntity(
+                    documentId = System.currentTimeMillis().toString(),
+                    title = title,
+                    author = "Người dùng hiện tại", // Giả định tên người dùng
+                    subject = "Môn học chung",  // Giả định
+                    metaInfo = "0 lượt tải · Môn học chung",
+                    addedTimestamp = System.currentTimeMillis()
+                )
+                documentDao.saveDocument(newDocument) // Lưu tài liệu đã upload
 
-                // 3. TẠO VÀ LƯU THÔNG BÁO VÀO ROOM DATABASE
+                // 3. TẠO VÀ LƯU THÔNG BÁO TẢI LÊN THÀNH CÔNG
                 val newNotification = NotificationEntity(
                     title = "Tải lên thành công",
-                    message = "Tài liệu: $title (ID: ${docRef.id})",
+                    message = "Tài liệu: $title",
                     timeText = "Hôm nay",
                     type = NotificationItem.Type.SUCCESS.name,
                     isRead = false
                 )
-                notificationDao.addNotification(newNotification)
+
+                notificationDao.addNotification(newNotification) // Ghi thông báo
 
                 // --- KẾT THÚC LOGIC NGHIỆP VỤ ---
 
                 // 4. Gửi sự kiện thành công về UI
-                _uploadEvent.emit(UploadResult.Success("Upload và lưu metadata thành công!"))
+                _uploadEvent.emit(UploadResult.Success("Upload tài liệu thành công"))
 
             } catch (e: Exception) {
-                // 5. Xử lý lỗi từ bất kỳ bước nào (delay hoặc Firestore)
-                _uploadEvent.emit(UploadResult.Error(e.message ?: "Đã xảy ra lỗi khi tải lên"))
+                // 5. Gửi sự kiện lỗi về UI nếu có
+                _uploadEvent.emit(UploadResult.Error(e.message ?: "Đã xảy ra lỗi"))
             } finally {
                 // 6. Luôn tắt trạng thái loading
                 _isUploading.value = false

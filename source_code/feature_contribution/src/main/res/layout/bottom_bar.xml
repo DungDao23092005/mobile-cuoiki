@@ -11,8 +11,7 @@
         android:id="@+id/bottom_bar_bg"
         android:layout_width="0dp"
         android:layout_height="64dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/bottom_bar_bg"
+        android:layout_marginTop="28dp"  android:background="@drawable/bottom_bar_bg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -21,8 +20,7 @@
         android:id="@+id/fab_container"
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:translationY="-24dp"
-        android:elevation="12dp"
+        android:translationY="-32dp"  android:elevation="14dp"
         android:clipToPadding="false"
         android:clipChildren="false"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/fab_outer_layer"
-            android:contentDescription=""
+            android:contentDescription="FAB Outer Layer"
             android:scaleType="centerCrop"
             android:elevation="12dp" />
 

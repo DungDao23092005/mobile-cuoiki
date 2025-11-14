@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.stushare.feature_contribution.R
+import androidx.core.content.ContextCompat
 
 class NotificationAdapter(
     private val items: MutableList<NotificationItem> = mutableListOf()
@@ -27,18 +28,29 @@ class NotificationAdapter(
     }
 
     override fun onBindViewHolder(h: VH, position: Int) {
-        val it = items[position]
-        h.tvTime.text = it.time
-        h.tvTitle.text = it.title
-        h.tvMsg.text  = it.message
+        val item = items[position]
+        h.tvTime.text = item.time
+        h.tvTitle.text = item.title
+        h.tvMsg.text  = item.message
+
+        val iconRes = when (item.type) {
+            NotificationItem.Type.SUCCESS -> R.drawable.ic_check_circle
+            NotificationItem.Type.WARNING -> R.drawable.ic_warning
+            NotificationItem.Type.INFO -> R.drawable.ic_notifications
+        }
+
+        // CẬP NHẬT: Sử dụng màu từ colors.xml
+        val iconColor = when (item.type) {
+            NotificationItem.Type.SUCCESS -> ContextCompat.getColor(h.itemView.context, R.color.green_success)
+            NotificationItem.Type.WARNING -> ContextCompat.getColor(h.itemView.context, R.color.orange_warning)
+            NotificationItem.Type.INFO -> ContextCompat.getColor(h.itemView.context, R.color.blue_info)
+        }
+
+        h.ivIcon.setImageResource(iconRes)
+        h.ivIcon.setColorFilter(iconColor)
     }
 
     override fun getItemCount() = items.size
-
-    fun addAtTop(item: NotificationItem) {
-        items.add(0, item)
-        notifyItemInserted(0)
-    }
 
     fun setAll(newItems: List<NotificationItem>) {
         items.clear()

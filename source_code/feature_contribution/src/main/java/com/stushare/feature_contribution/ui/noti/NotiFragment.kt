@@ -7,7 +7,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stushare.feature_contribution.R
 
+import androidx.fragment.app.viewModels // <-- THÊM
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
+
 class NotiFragment : Fragment(R.layout.fragment_noti) {
+
+    // Khởi tạo ViewModel
+    private val viewModel: NotiViewModel by viewModels()
 
     private lateinit var adapter: NotificationAdapter
 
@@ -18,18 +27,24 @@ class NotiFragment : Fragment(R.layout.fragment_noti) {
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
 
-        // ví dụ item mẫu
-        adapter.addAtTop(
-            NotificationItem(
-                title = "Chào mừng",
-                message = "Bạn đã mở Thông báo",
-                type = NotificationItem.Type.INFO
-            )
-        )
+        // Lắng nghe dữ liệu từ ViewModel
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.notifications.collect { items ->
+                    // Hiển thị danh sách thông báo đã tải từ DB
+                    adapter.setAll(items)
+                }
+            }
+        }
+
+        // Đánh dấu tất cả là đã đọc khi người dùng mở màn hình thông báo
+        viewModel.markAllNotificationsAsRead()
     }
 
     /** Cho phép Activity/Fragment khác thêm thông báo mới */
     fun addNotification(item: NotificationItem) {
-        adapter.addAtTop(item)
+        // Hàm này không còn cần thiết nếu dùng ViewModel, nhưng vẫn giữ để tránh lỗi.
+        // Dữ liệu mới sẽ được thêm vào DB qua MyFirebaseMessagingService
+        // hoặc UploadViewModel, sau đó tự động hiển thị ở đây qua Flow.
     }
 }
