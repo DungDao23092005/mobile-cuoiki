@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity() {
             is NotiFragment -> R.id.ic_notifications
             is ProfileFragment -> R.id.ic_profile
             is UploadFragment -> R.id.fab_upload
-            else -> R.id.ic_home // mặc định về Home
+            else -> R.id.ic_home
         }
         setActiveIcon(idToActivate)
     }
