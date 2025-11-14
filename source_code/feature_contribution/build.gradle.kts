@@ -66,4 +66,6 @@ dependencies {
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
+    //CLOUD FIRESTORE
+    implementation(libs.firebase.firestore)
 }

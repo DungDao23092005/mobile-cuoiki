@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView // <-- THÊM
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.stushare.feature_contribution.ui.account.ProfileFragment
@@ -13,6 +14,13 @@ import com.stushare.feature_contribution.ui.home.HomeFragment
 import com.stushare.feature_contribution.ui.noti.NotiFragment
 import com.stushare.feature_contribution.ui.search.SearchFragment
 import androidx.core.content.ContextCompat
+
+// THÊM CÁC IMPORTS CHO FLOW VÀ ROOM
+import androidx.lifecycle.lifecycleScope
+import com.stushare.feature_contribution.db.AppDatabase
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+// END THÊM IMPORTS
 
 /**
  * MainActivity quản lý bottom bar (FAB) global. Khi FAB được click sẽ forward
@@ -30,6 +38,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var icSearch: ImageButton
     private lateinit var icNoti: ImageButton
     private lateinit var icAccount: ImageButton
+    private lateinit var notifBadge: TextView // <-- THÊM BADGE VIEW
+
+    // Khởi tạo DAO (lazy để chỉ khởi tạo khi cần)
+    private val notificationDao by lazy {
+        AppDatabase.getInstance(applicationContext).notificationDao()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         icNoti = findViewById(R.id.ic_notifications)
         icAccount = findViewById(R.id.ic_profile)
         fabUpload = findViewById(R.id.fab_upload)
+        notifBadge = findViewById(R.id.tv_notif_badge) // <-- BINDING BADGE VIEW
 
         // đảm bảo fab_container nổi trên cùng (nếu cần)
         findViewById<View?>(R.id.fab_container)?.bringToFront()
@@ -84,6 +99,35 @@ class MainActivity : AppCompatActivity() {
                 openFragment(UploadFragment())
                 setActiveIcon(R.id.fab_upload)
             }
+        }
+
+        // Bắt đầu lắng nghe số lượng thông báo chưa đọc
+        observeUnreadCount() // <-- GỌI HÀM MỚI
+    }
+
+    /**
+     * Hàm mới: Lắng nghe Flow đếm thông báo chưa đọc từ Room.
+     */
+    private fun observeUnreadCount() {
+        // Sử dụng lifecycleScope của Activity để lắng nghe Flow
+        lifecycleScope.launch {
+            // collectLatest sẽ chỉ xử lý giá trị mới nhất nếu có nhiều giá trị đến cùng lúc
+            notificationDao.getUnreadNotificationCount().collectLatest { count ->
+                updateNotificationBadge(count)
+            }
+        }
+    }
+
+    /**
+     * Hàm mới: Cập nhật UI của badge.
+     */
+    private fun updateNotificationBadge(count: Int) {
+        if (count > 0) {
+            // Giới hạn hiển thị là "99+"
+            notifBadge.text = if (count > 99) "99+" else count.toString()
+            notifBadge.visibility = View.VISIBLE
+        } else {
+            notifBadge.visibility = View.GONE
         }
     }
 
