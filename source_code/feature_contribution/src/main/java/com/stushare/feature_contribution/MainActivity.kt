@@ -187,6 +187,10 @@ class MainActivity : AppCompatActivity() {
             // Dùng R.id.root_layout (FrameLayout) cho Home và Search
             is HomeFragment -> currentFragment.view?.findViewById<View>(R.id.root_layout)?.setPadding(0, 0, 0, bottomBarHeight)
             is SearchFragment -> currentFragment.view?.findViewById<View>(R.id.root_layout)?.setPadding(0, 0, 0, bottomBarHeight)
+
+            // ĐÃ SỬA: Áp dụng padding lên NestedScrollView mới của UploadFragment
+            is UploadFragment -> currentFragment.view?.findViewById<View>(R.id.upload_scroll_view)?.setPadding(0, 0, 0, bottomBarHeight)
+
             // Giữ nguyên cho NotiFragment và ProfileFragment (dùng RecyclerView ID)
             is NotiFragment -> currentFragment.view?.findViewById<View>(R.id.rv_notif)?.setPadding(0, 0, 0, bottomBarHeight)
             is ProfileFragment -> currentFragment.view?.findViewById<View>(R.id.rv_docs)?.setPadding(0, 0, 0, bottomBarHeight)
