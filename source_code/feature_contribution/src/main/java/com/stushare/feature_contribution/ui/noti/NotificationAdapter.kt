@@ -39,7 +39,6 @@ class NotificationAdapter(
             NotificationItem.Type.INFO -> R.drawable.ic_notifications
         }
 
-        // CẬP NHẬT: Sử dụng màu từ colors.xml
         val iconColor = when (item.type) {
             NotificationItem.Type.SUCCESS -> ContextCompat.getColor(h.itemView.context, R.color.green_success)
             NotificationItem.Type.WARNING -> ContextCompat.getColor(h.itemView.context, R.color.orange_warning)

@@ -1,6 +1,7 @@
 package com.stushare.feature_contribution.ui.noti
 
 import android.app.Application
+import android.text.format.DateUtils // <-- THÊM IMPORT NÀY
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.stushare.feature_contribution.db.AppDatabase
@@ -17,12 +18,13 @@ class NotiViewModel(application: Application) : AndroidViewModel(application) {
         notificationDao.getAllNotifications()
             .map { entities ->
                 entities.map { entity ->
-                    // Map NotificationEntity sang NotificationItem
                     NotificationItem(
                         id = entity.id.toString(),
                         title = entity.title,
                         message = entity.message,
-                        time = entity.timeText,
+
+                        time = convertTimestampToRelativeTime(entity.timestamp),
+
                         type = NotificationItem.Type.valueOf(entity.type)
                     )
                 }
@@ -31,6 +33,15 @@ class NotiViewModel(application: Application) : AndroidViewModel(application) {
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = emptyList()
             )
+    private fun convertTimestampToRelativeTime(timestamp: Long): String {
+        val now = System.currentTimeMillis()
+        return DateUtils.getRelativeTimeSpanString(
+            timestamp,
+            now,
+            DateUtils.SECOND_IN_MILLIS
+        ).toString()
+    }
+
     fun markAllNotificationsAsRead() {
         viewModelScope.launch {
             notificationDao.markAllAsRead()

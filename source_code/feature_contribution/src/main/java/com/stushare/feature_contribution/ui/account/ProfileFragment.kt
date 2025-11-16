@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.PopupMenu // <-- THÊM IMPORT
+import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -28,6 +28,10 @@ class ProfileFragment : Fragment() {
     private lateinit var adapter: DocAdapter
     private lateinit var tabLayout: TabLayout
 
+    // Biến cho RecyclerView và TextView rỗng
+    private lateinit var rvDocs: RecyclerView
+    private lateinit var tvEmptyMessage: TextView
+
     private var publishedDocsList: List<DocItem> = emptyList()
     private var savedDocsList: List<DocItem> = emptyList()
     private var downloadedDocsList: List<DocItem> = emptyList()
@@ -44,22 +48,27 @@ class ProfileFragment : Fragment() {
         tabLayout.addTab(tabLayout.newTab().setText("Đã lưu"))
         tabLayout.addTab(tabLayout.newTab().setText("Đã tải về"))
 
-        // Recycler view
-        val rv = view.findViewById<RecyclerView>(R.id.rv_docs)
-        rv.layoutManager = LinearLayoutManager(requireContext())
+        // --- SỬA ĐỔI ---
+        // Gán view cho các biến của class
+        rvDocs = view.findViewById(R.id.rv_docs)
+        tvEmptyMessage = view.findViewById(R.id.tv_empty_message)
 
-        // *** SỬA ĐỔI Ở ĐÂY ***
-        // Truyền một lambda vào Adapter để xử lý sự kiện xóa
+        // Sử dụng biến class (rvDocs) thay vì biến cục bộ (rv)
+        rvDocs.layoutManager = LinearLayoutManager(requireContext())
+        // --- KẾT THÚC SỬA ĐỔI ---
+
         adapter = DocAdapter(mutableListOf()) { item ->
-            // Đây là code chạy khi người dùng bấm "Xóa"
-            // (Chỉ xóa nếu item thuộc tab "Đã đăng")
             if (tabLayout.selectedTabPosition == 0) {
                 viewModel.deletePublishedDocument(item.documentId)
             } else {
                 Toast.makeText(requireContext(), "Chức năng Xóa cho tab này chưa được hỗ trợ", Toast.LENGTH_SHORT).show()
             }
         }
-        rv.adapter = adapter
+
+        // --- SỬA ĐỔI ---
+        // Gán adapter cho rvDocs
+        rvDocs.adapter = adapter
+        // --- KẾT THÚC SỬA ĐỔI ---
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -101,12 +110,8 @@ class ProfileFragment : Fragment() {
                         }
                     }
                 }
-
-                // Lắng nghe danh sách "Đã lưu" (Từ Room DB)
                 launch {
                     viewModel.savedDocuments.collect { entities ->
-                        // *** SỬA ĐỔI Ở ĐÂY ***
-                        // Cập nhật mapping để dùng DocItem mới
                         savedDocsList = entities.map {
                             DocItem(it.documentId, it.title, it.metaInfo)
                         }
@@ -128,6 +133,8 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    // --- SỬA ĐỔI ---
+    // Thêm logic kiểm tra rỗng
     private fun showDocsForTab(pos: Int) {
         val list = when (pos) {
             0 -> publishedDocsList
@@ -135,14 +142,32 @@ class ProfileFragment : Fragment() {
             2 -> downloadedDocsList
             else -> publishedDocsList
         }
+
+        if (list.isEmpty()) {
+            // Danh sách rỗng: Ẩn RecyclerView, Hiện TextView
+            rvDocs.visibility = View.GONE
+            tvEmptyMessage.visibility = View.VISIBLE
+
+            // Cập nhật nội dung text
+            tvEmptyMessage.text = when (pos) {
+                0 -> "Hiện không có tài liệu đã đăng"
+                1 -> "Hiện không có tài liệu đã lưu"
+                2 -> "Hiện không có tài liệu đã tải về"
+                else -> "Không có tài liệu"
+            }
+        } else {
+            // Danh sách có dữ liệu: Hiện RecyclerView, Ẩn TextView
+            rvDocs.visibility = View.VISIBLE
+            tvEmptyMessage.visibility = View.GONE
+        }
+
         adapter.setAll(list)
     }
+    // --- KẾT THÚC SỬA ĐỔI ---
 
-    // *** SỬA ĐỔI Ở ĐÂY ***
-    // 1. Thêm (private val onDeleteClicked: (DocItem) -> Unit) vào constructor
     class DocAdapter(
         private val items: MutableList<DocItem>,
-        private val onDeleteClicked: (DocItem) -> Unit // Lambda để gọi khi bấm xóa
+        private val onDeleteClicked: (DocItem) -> Unit
     ) : RecyclerView.Adapter<DocAdapter.VH>() {
 
         inner class VH(v: View) : RecyclerView.ViewHolder(v) {
@@ -161,29 +186,18 @@ class ProfileFragment : Fragment() {
             holder.title.text = item.docTitle
             holder.meta.text = item.meta
 
-            // *** SỬA ĐỔI Ở ĐÂY ***
-            // 2. Xóa Toast, thay bằng PopupMenu
             holder.more.setOnClickListener { view ->
-                // Tạo PopupMenu
                 val popup = PopupMenu(holder.itemView.context, view)
-                // Thêm item "Xóa" vào menu
                 popup.menu.add("Xóa")
-                // (Bạn có thể thêm "Chỉnh sửa" ở đây sau)
-                // popup.menu.add("Chỉnh sửa")
-
-                // Đặt listener khi một item trong menu được chọn
                 popup.setOnMenuItemClickListener { menuItem ->
                     when (menuItem.title) {
                         "Xóa" -> {
-                            // Gọi lambda, truyền item hiện tại ra Fragment
                             onDeleteClicked(item)
                             true
                         }
-                        // "Chỉnh sửa" -> { ... true }
                         else -> false
                     }
                 }
-                // Hiển thị menu
                 popup.show()
             }
         }
@@ -193,7 +207,7 @@ class ProfileFragment : Fragment() {
         fun setAll(newItems: List<DocItem>) {
             items.clear()
             items.addAll(newItems)
-            notifyDataSetChanged() // Tự động cập nhật khi xóa
+            notifyDataSetChanged()
         }
     }
 }

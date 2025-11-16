@@ -83,4 +83,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <TextView
+        android:id="@+id/tv_empty_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="32dp"
+        android:text="Hiện không có tài liệu nào"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/rv_docs"
+        app:layout_constraintEnd_toEndOf="@id/rv_docs"
+        app:layout_constraintStart_toStartOf="@id/rv_docs"
+        app:layout_constraintTop_toTopOf="@id/rv_docs"
+        app:layout_constraintVertical_bias="0.4" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

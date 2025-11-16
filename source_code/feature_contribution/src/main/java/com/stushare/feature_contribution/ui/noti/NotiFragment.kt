@@ -27,17 +27,13 @@ class NotiFragment : Fragment(R.layout.fragment_noti) {
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
 
-        // Lắng nghe dữ liệu từ ViewModel
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.notifications.collect { items ->
-                    // Hiển thị danh sách thông báo đã tải từ DB
                     adapter.setAll(items)
                 }
             }
         }
-
-        // Đánh dấu tất cả là đã đọc khi người dùng mở màn hình thông báo
         viewModel.markAllNotificationsAsRead()
     }
 

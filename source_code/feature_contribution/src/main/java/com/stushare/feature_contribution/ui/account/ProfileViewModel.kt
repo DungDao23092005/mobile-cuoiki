@@ -8,7 +8,7 @@ import com.stushare.feature_contribution.db.SavedDocumentEntity
 import com.stushare.feature_contribution.db.UserProfileEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map // <-- Đảm bảo import .map
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -25,15 +25,11 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
             started = kotlinx.coroutines.flow.SharingStarted.WhileSubscribed(5000),
             initialValue = null
         )
-
-    // DỮ LIỆU "ĐÃ ĐĂNG" (LẤY TỪ ROOM DB)
     val publishedDocuments: StateFlow<List<DocItem>> = savedDocumentDao.getAllSavedDocuments()
         .map { entities ->
             entities.map { entity ->
-                // *** SỬA ĐỔI Ở ĐÂY ***
-                // Chuyển đổi, bao gồm cả documentId
                 DocItem(
-                    documentId = entity.documentId, // <-- Thêm ID
+                    documentId = entity.documentId,
                     docTitle = entity.title,
                     meta = entity.metaInfo
                 )
@@ -43,11 +39,7 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
             started = kotlinx.coroutines.flow.SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
         )
-
-    // Dữ liệu "Đã lưu" (Tạm thời là danh sách rỗng)
     val savedDocuments: StateFlow<List<SavedDocumentEntity>> = MutableStateFlow(emptyList())
-
-    // Dữ liệu "Đã tải về" (Tạm thời dùng dữ liệu mẫu)
     val downloadedDocuments: StateFlow<List<DocItem>> = MutableStateFlow(
         listOf(
             // *** SỬA ĐỔI Ở ĐÂY (thêm ID giả) ***
@@ -55,11 +47,6 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
             DocItem("download_2", "Tài liệu đã tải 2", "Tác giả B · Web")
         )
     )
-
-    // *** THÊM HÀM MỚI Ở ĐÂY ***
-    /**
-     * Hàm này được gọi từ Fragment để xóa một tài liệu đã đăng
-     */
     fun deletePublishedDocument(documentId: String) {
         viewModelScope.launch {
             savedDocumentDao.unsaveDocument(documentId)

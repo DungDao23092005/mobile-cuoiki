@@ -51,7 +51,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val newNotification = NotificationEntity(
             title = title,
             message = body,
-            timeText = "Vừa xong", // Bạn có thể xử lý thời gian tốt hơn
+            timestamp = System.currentTimeMillis(),
             type = NotificationItem.Type.INFO.name, // Mặc định là INFO
             isRead = false
         )

@@ -65,7 +65,7 @@ class UploadViewModel(application: Application) : AndroidViewModel(application) 
                 val newNotification = NotificationEntity(
                     title = "Tải lên thành công",
                     message = "Tài liệu: $title",
-                    timeText = "Hôm nay",
+                    timestamp = System.currentTimeMillis(),
                     type = NotificationItem.Type.SUCCESS.name,
                     isRead = false
                 )
