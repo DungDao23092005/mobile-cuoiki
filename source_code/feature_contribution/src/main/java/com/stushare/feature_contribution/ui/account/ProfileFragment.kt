@@ -48,14 +48,14 @@ class ProfileFragment : Fragment() {
         tabLayout.addTab(tabLayout.newTab().setText("Đã lưu"))
         tabLayout.addTab(tabLayout.newTab().setText("Đã tải về"))
 
-        // --- SỬA ĐỔI ---
-        // Gán view cho các biến của class
+        // --- SỬA LỖI Ở ĐÂY ---
+        // 1. Gán giá trị cho 2 biến của class
         rvDocs = view.findViewById(R.id.rv_docs)
         tvEmptyMessage = view.findViewById(R.id.tv_empty_message)
 
-        // Sử dụng biến class (rvDocs) thay vì biến cục bộ (rv)
+        // 2. Sử dụng biến class "rvDocs" (thay vì "rv" cục bộ)
         rvDocs.layoutManager = LinearLayoutManager(requireContext())
-        // --- KẾT THÚC SỬA ĐỔI ---
+        // --- KẾT THÚC SỬA LỖI ---
 
         adapter = DocAdapter(mutableListOf()) { item ->
             if (tabLayout.selectedTabPosition == 0) {
@@ -65,10 +65,8 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        // --- SỬA ĐỔI ---
-        // Gán adapter cho rvDocs
+        // 3. Gán adapter cho "rvDocs"
         rvDocs.adapter = adapter
-        // --- KẾT THÚC SỬA ĐỔI ---
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -112,11 +110,13 @@ class ProfileFragment : Fragment() {
                 }
                 launch {
                     viewModel.savedDocuments.collect { entities ->
+                        // Chỗ này viewModel.savedDocuments đang là rỗng,
+                        // nên savedDocsList cũng sẽ là rỗng
                         savedDocsList = entities.map {
                             DocItem(it.documentId, it.title, it.metaInfo)
                         }
                         if (tabLayout.selectedTabPosition == 1) {
-                            showDocsForTab(1)
+                            showDocsForTab(1) // -> Sẽ gọi showDocsForTab(1)
                         }
                     }
                 }
@@ -133,38 +133,35 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    // --- SỬA ĐỔI ---
-    // Thêm logic kiểm tra rỗng
+    // Hàm này đã chính xác
     private fun showDocsForTab(pos: Int) {
         val list = when (pos) {
             0 -> publishedDocsList
-            1 -> savedDocsList
+            1 -> savedDocsList // -> list sẽ là rỗng
             2 -> downloadedDocsList
             else -> publishedDocsList
         }
 
+        // Vì list rỗng, code sẽ chạy vào đây
         if (list.isEmpty()) {
-            // Danh sách rỗng: Ẩn RecyclerView, Hiện TextView
             rvDocs.visibility = View.GONE
             tvEmptyMessage.visibility = View.VISIBLE
 
-            // Cập nhật nội dung text
             tvEmptyMessage.text = when (pos) {
                 0 -> "Hiện không có tài liệu đã đăng"
-                1 -> "Hiện không có tài liệu đã lưu"
+                1 -> "Hiện không có tài liệu đã lưu" // -> Sẽ set text này
                 2 -> "Hiện không có tài liệu đã tải về"
                 else -> "Không có tài liệu"
             }
         } else {
-            // Danh sách có dữ liệu: Hiện RecyclerView, Ẩn TextView
             rvDocs.visibility = View.VISIBLE
             tvEmptyMessage.visibility = View.GONE
         }
 
         adapter.setAll(list)
     }
-    // --- KẾT THÚC SỬA ĐỔI ---
 
+    // Class DocAdapter không thay đổi
     class DocAdapter(
         private val items: MutableList<DocItem>,
         private val onDeleteClicked: (DocItem) -> Unit
