@@ -1,7 +1,6 @@
 package com.stushare.feature_contribution
 
 import com.stushare.feature_contribution.ui.upload.UploadFragment
-
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
@@ -13,8 +12,8 @@ import com.stushare.feature_contribution.ui.account.ProfileFragment
 import com.stushare.feature_contribution.ui.home.HomeFragment
 import com.stushare.feature_contribution.ui.noti.NotiFragment
 import com.stushare.feature_contribution.ui.search.SearchFragment
+import com.stushare.feature_contribution.ui.leaderboard.LeaderboardFragment // <--- MỚI
 import androidx.core.content.ContextCompat
-
 import androidx.lifecycle.lifecycleScope
 import com.stushare.feature_contribution.db.AppDatabase
 import kotlinx.coroutines.flow.collectLatest
@@ -37,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         AppDatabase.getInstance(applicationContext).notificationDao()
     }
 
-    // Biến lưu trữ chiều cao của bottom bar
     private var bottomBarHeight: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,18 +51,12 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<View?>(R.id.fab_container)?.bringToFront()
 
-        // LẮNG NGHE ĐỂ LẤY CHIỀU CAO THỰC CỦA BOTTOM BAR
         val bottomBarBg = findViewById<View>(R.id.bottom_bar_bg)
         bottomBarBg.post {
-            // FIX LỖI: Tính toán 20dp margin-top trực tiếp bằng dpToPx()
             val marginTopPx = 20.dpToPx()
-
-            // bottomBarHeight = Chiều cao của View màu xanh (64dp) + 20dp margin top
             bottomBarHeight = bottomBarBg.height + marginTopPx
-
             applyBottomPaddingToFragments()
         }
-
 
         if (savedInstanceState == null) {
             openFragment(HomeFragment(), addToBackStack = false)
@@ -103,12 +95,9 @@ class MainActivity : AppCompatActivity() {
         observeUnreadCount()
     }
 
-    // Chuyển đổi dp sang pixel
     private fun Int.dpToPx(): Int {
         return (this * resources.displayMetrics.density).toInt()
     }
-
-    // ĐÃ XÓA HÀM getBottomBarTopMargin() VÌ KHÔNG CẦN THIẾT
 
     private fun observeUnreadCount() {
         lifecycleScope.launch {
@@ -130,7 +119,6 @@ class MainActivity : AppCompatActivity() {
     private fun setActiveIcon(activeId: Int) {
         val inactiveColor = ContextCompat.getColor(this, android.R.color.black)
         val activeColor = ContextCompat.getColor(this, android.R.color.white)
-        val activeBgColorInt = android.graphics.Color.parseColor("#27AE60")
 
         listOf(icHome, icSearch, icNoti, icAccount).forEach { btn ->
             btn.setColorFilter(inactiveColor)
@@ -165,42 +153,36 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun openFragment(fragment: Fragment, addToBackStack: Boolean = true) {
+    // Đổi thành public để ProfileFragment có thể gọi
+    fun openFragment(fragment: Fragment, addToBackStack: Boolean = true) {
         val tx = supportFragmentManager.beginTransaction()
             .replace(R.id.main_nav_host, fragment)
         if (addToBackStack) tx.addToBackStack(null)
         tx.commit()
 
-        // ÁP DỤNG PADDING KHI MỞ FRAGMENT
         if (bottomBarHeight > 0) {
-            // post để đảm bảo Fragment đã tạo xong view trước khi áp dụng padding
             supportFragmentManager.findFragmentById(R.id.main_nav_host)?.view?.post {
                 applyBottomPaddingToFragments()
             }
         }
     }
 
-    // Hàm áp dụng padding cho các Fragment chứa RecyclerView
     private fun applyBottomPaddingToFragments() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.main_nav_host)
         when (currentFragment) {
-            // Dùng R.id.root_layout (FrameLayout) cho Home và Search
             is HomeFragment -> currentFragment.view?.findViewById<View>(R.id.root_layout)?.setPadding(0, 0, 0, bottomBarHeight)
             is SearchFragment -> currentFragment.view?.findViewById<View>(R.id.root_layout)?.setPadding(0, 0, 0, bottomBarHeight)
-
-            // ĐÃ SỬA: Áp dụng padding lên NestedScrollView mới của UploadFragment
             is UploadFragment -> currentFragment.view?.findViewById<View>(R.id.upload_scroll_view)?.setPadding(0, 0, 0, bottomBarHeight)
-
-            // Giữ nguyên cho NotiFragment và ProfileFragment (dùng RecyclerView ID)
             is NotiFragment -> currentFragment.view?.findViewById<View>(R.id.rv_notif)?.setPadding(0, 0, 0, bottomBarHeight)
             is ProfileFragment -> currentFragment.view?.findViewById<View>(R.id.rv_docs)?.setPadding(0, 0, 0, bottomBarHeight)
+            // MỚI: Padding cho Leaderboard
+            is LeaderboardFragment -> currentFragment.view?.findViewById<View>(R.id.pager_leaderboard)?.setPadding(0, 0, 0, bottomBarHeight)
         }
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
         updateActiveFromCurrentFragment()
-        // Cần gọi lại padding khi fragment thay đổi do back
         if (bottomBarHeight > 0) {
             supportFragmentManager.findFragmentById(R.id.main_nav_host)?.view?.post {
                 applyBottomPaddingToFragments()
@@ -216,6 +198,8 @@ class MainActivity : AppCompatActivity() {
             is NotiFragment -> R.id.ic_notifications
             is ProfileFragment -> R.id.ic_profile
             is UploadFragment -> R.id.fab_upload
+            // MỚI: Giữ icon Profile sáng khi đang xem Bảng xếp hạng
+            is LeaderboardFragment -> R.id.ic_profile
             else -> R.id.ic_home
         }
         setActiveIcon(idToActivate)

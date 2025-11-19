@@ -24,7 +24,7 @@
             android:layout_height="64dp"
             android:src="@drawable/ic_person"
             android:contentDescription="Avatar"
-            android:tint="@android:color/darker_gray"
+            app:tint="@android:color/darker_gray"
             android:layout_marginEnd="12dp"/>
 
         <LinearLayout
@@ -48,6 +48,22 @@
                 android:text="Khoa: Công nghệ thông tin"
                 android:textSize="12sp"
                 android:textColor="@android:color/darker_gray"/>
+
+            <!-- NÚT MỚI: XEM BẢNG XẾP HẠNG -->
+            <TextView
+                android:id="@+id/btn_view_leaderboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/box_choose_bg"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:text="🏆 Xem Bảng xếp hạng"
+                android:textColor="#FF9800"
+                android:textStyle="bold"
+                android:textSize="13sp" />
         </LinearLayout>
 
         <ImageButton
@@ -90,10 +106,8 @@
         android:textColor="@android:color/darker_gray"
         android:textSize="16sp"
         android:visibility="gone"
-
         app:layout_constraintTop_toBottomOf="@id/tab_profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

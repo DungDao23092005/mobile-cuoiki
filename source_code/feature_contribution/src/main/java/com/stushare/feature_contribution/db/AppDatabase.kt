@@ -1,4 +1,3 @@
-// trong com.stushare.feature_contribution.db
 package com.stushare.feature_contribution.db
 
 import android.content.Context
@@ -13,7 +12,7 @@ import androidx.room.RoomDatabase
         SavedDocumentEntity::class,
         NotificationEntity::class
     ],
-    version = 1, // Tăng version nếu bạn thay đổi cấu trúc bảng sau này
+    version = 2, // <--- ĐÃ SỬA: Tăng version lên 2
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -33,7 +32,9 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "stushare_database"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2"
+    android:clickable="true"
+    android:focusable="true">
+
+    <View
+        android:id="@+id/header_bg"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#27AE60"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        android:src="@android:drawable/ic_menu_revert"
+        app:layout_constraintBottom_toBottomOf="@id/header_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="@android:color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cài đặt"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btn_back"
+        app:layout_constraintStart_toEndOf="@id/btn_back"
+        app:layout_constraintTop_toTopOf="@id/btn_back" />
+
+    <ImageButton
+        android:id="@+id/btn_search_settings"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Search"
+        android:src="@drawable/ic_search"
+        app:layout_constraintBottom_toBottomOf="@id/header_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@android:color/white" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="100dp">
+
+            <LinearLayout
+                android:id="@+id/item_account"
+                style="@style/SettingsItemStyle">
+                <ImageView style="@style/SettingsIconStyle" android:src="@drawable/ic_person" />
+                <TextView style="@style/SettingsTextStyle" android:text="Tài khoản và bảo mật" />
+                <ImageView style="@style/SettingsArrowStyle" android:src="@drawable/ic_arrow_right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_noti"
+                style="@style/SettingsItemStyle">
+                <ImageView style="@style/SettingsIconStyle" android:src="@drawable/ic_notifications" />
+                <TextView style="@style/SettingsTextStyle" android:text="Thông báo" />
+                <ImageView style="@style/SettingsArrowStyle" android:src="@drawable/ic_arrow_right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_appearance"
+                style="@style/SettingsItemStyle">
+                <ImageView style="@style/SettingsIconStyle" android:src="@drawable/ic_monitor" />
+                <TextView style="@style/SettingsTextStyle" android:text="Giao diện &amp; ngôn ngữ" />
+                <ImageView style="@style/SettingsArrowStyle" android:src="@drawable/ic_arrow_right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_about"
+                style="@style/SettingsItemStyle">
+                <ImageView style="@style/SettingsIconStyle" android:src="@drawable/ic_info" />
+                <TextView style="@style/SettingsTextStyle" android:text="Thông tin về StuShare" />
+                <ImageView style="@style/SettingsArrowStyle" android:src="@drawable/ic_arrow_right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_support"
+                style="@style/SettingsItemStyle">
+                <ImageView style="@style/SettingsIconStyle" android:src="@drawable/ic_help_circle" />
+                <TextView style="@style/SettingsTextStyle" android:text="Liên hệ hỗ trợ" />
+                <ImageView style="@style/SettingsArrowStyle" android:src="@drawable/ic_chat_bubble" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_report"
+                style="@style/SettingsItemStyle">
+                <ImageView style="@style/SettingsIconStyle" android:src="@drawable/ic_warning" />
+                <TextView style="@style/SettingsTextStyle" android:text="Báo cáo vi phạm" />
+                <ImageView style="@style/SettingsArrowStyle" android:src="@drawable/ic_chat_bubble" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_switch_account"
+                style="@style/SettingsItemStyle">
+                <ImageView style="@style/SettingsIconStyle" android:src="@drawable/ic_users_group" />
+                <TextView style="@style/SettingsTextStyle" android:text="Chuyển tài khoản" />
+                <ImageView style="@style/SettingsArrowStyle" android:src="@drawable/ic_arrow_right" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/rounded_button_red"
+                android:drawableEnd="@drawable/ic_logout_icon"
+                android:drawableTint="@android:color/black"
+                android:gravity="center"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="Đăng xuất "
+                android:textAllCaps="false"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

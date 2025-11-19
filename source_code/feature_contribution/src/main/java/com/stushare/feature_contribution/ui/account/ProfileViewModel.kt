@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.stushare.feature_contribution.db.AppDatabase
+import com.stushare.feature_contribution.db.DocumentRepository // Import Repository
 import com.stushare.feature_contribution.db.SavedDocumentEntity
 import com.stushare.feature_contribution.db.UserProfileEntity
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +16,9 @@ import kotlinx.coroutines.launch
 class ProfileViewModel(application: Application) : AndroidViewModel(application) {
 
     private val userDao = AppDatabase.getInstance(application).userDao()
-    private val savedDocumentDao = AppDatabase.getInstance(application).savedDocumentDao()
+
+    // Khởi tạo Repository
+    private val documentRepository = DocumentRepository(AppDatabase.getInstance(application).savedDocumentDao())
 
     private val USER_ID = "user_001"
 
@@ -25,7 +28,9 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
             started = kotlinx.coroutines.flow.SharingStarted.WhileSubscribed(5000),
             initialValue = null
         )
-    val publishedDocuments: StateFlow<List<DocItem>> = savedDocumentDao.getAllSavedDocuments()
+
+    // ĐỌC DỮ LIỆU TỪ REPOSITORY (Room được đồng bộ)
+    val publishedDocuments: StateFlow<List<DocItem>> = documentRepository.allDocuments
         .map { entities ->
             entities.map { entity ->
                 DocItem(
@@ -39,22 +44,33 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
             started = kotlinx.coroutines.flow.SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
         )
+
+    // Các biến này giữ nguyên logic cũ của bạn (có thể nâng cấp sau)
     val savedDocuments: StateFlow<List<SavedDocumentEntity>> = MutableStateFlow(emptyList())
     val downloadedDocuments: StateFlow<List<DocItem>> = MutableStateFlow(
         listOf(
-            // *** SỬA ĐỔI Ở ĐÂY (thêm ID giả) ***
             DocItem("download_1", "Tài liệu đã tải 1", "Tác giả A · Mobile"),
             DocItem("download_2", "Tài liệu đã tải 2", "Tác giả B · Web")
         )
     )
+
     fun deletePublishedDocument(documentId: String) {
         viewModelScope.launch {
-            savedDocumentDao.unsaveDocument(documentId)
+            // Sử dụng Repository để xóa (xóa cả Firestore và Room)
+            try {
+                documentRepository.deleteDocument(documentId)
+            } catch (e: Exception) {
+                // Có thể thêm logic xử lý lỗi nếu cần
+            }
         }
     }
 
-
     init {
+        // QUAN TRỌNG: Bắt đầu lắng nghe thay đổi từ Firestore ngay khi ViewModel khởi tạo
+        // Việc này đảm bảo dữ liệu Room luôn được cập nhật mới nhất từ server
+        documentRepository.startListeningForRemoteChanges(viewModelScope)
+
+        // Logic tạo profile mẫu (giữ nguyên)
         viewModelScope.launch {
             if (userDao.getProfile(USER_ID).stateIn(viewModelScope).value == null) {
                 userDao.upsertProfile(

@@ -6,10 +6,11 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "user_profile")
 data class UserProfileEntity(
     @PrimaryKey
-    val userId: String, // ID của người dùng từ server (ví dụ: "user_001")
+    val userId: String,
     val fullName: String,
     val email: String,
     val phone: String?,
-    val dateOfBirth: String?, // Lưu dạng "01/01/2000" như trên UI
-    val gender: String?      // Lưu dạng "Nam" hoặc "Nữ"
+    val dateOfBirth: String?,
+    val gender: String?,
+    val score: Int = 0
 )

@@ -68,4 +68,6 @@ dependencies {
     implementation(libs.firebase.messaging)
     //CLOUD FIRESTORE
     implementation(libs.firebase.firestore)
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")
 }

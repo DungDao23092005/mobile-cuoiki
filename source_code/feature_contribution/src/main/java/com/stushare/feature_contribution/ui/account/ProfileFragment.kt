@@ -17,9 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import com.stushare.feature_contribution.R
-import com.stushare.feature_contribution.db.SavedDocumentEntity
+import com.stushare.feature_contribution.MainActivity
+import com.stushare.feature_contribution.ui.leaderboard.LeaderboardFragment
 import kotlinx.coroutines.launch
-
 
 class ProfileFragment : Fragment() {
 
@@ -27,8 +27,6 @@ class ProfileFragment : Fragment() {
 
     private lateinit var adapter: DocAdapter
     private lateinit var tabLayout: TabLayout
-
-    // Biến cho RecyclerView và TextView rỗng
     private lateinit var rvDocs: RecyclerView
     private lateinit var tvEmptyMessage: TextView
 
@@ -48,15 +46,10 @@ class ProfileFragment : Fragment() {
         tabLayout.addTab(tabLayout.newTab().setText("Đã lưu"))
         tabLayout.addTab(tabLayout.newTab().setText("Đã tải về"))
 
-        // --- SỬA LỖI Ở ĐÂY ---
-        // 1. Gán giá trị cho 2 biến của class
         rvDocs = view.findViewById(R.id.rv_docs)
         tvEmptyMessage = view.findViewById(R.id.tv_empty_message)
 
-        // 2. Sử dụng biến class "rvDocs" (thay vì "rv" cục bộ)
         rvDocs.layoutManager = LinearLayoutManager(requireContext())
-        // --- KẾT THÚC SỬA LỖI ---
-
         adapter = DocAdapter(mutableListOf()) { item ->
             if (tabLayout.selectedTabPosition == 0) {
                 viewModel.deletePublishedDocument(item.documentId)
@@ -64,9 +57,13 @@ class ProfileFragment : Fragment() {
                 Toast.makeText(requireContext(), "Chức năng Xóa cho tab này chưa được hỗ trợ", Toast.LENGTH_SHORT).show()
             }
         }
-
-        // 3. Gán adapter cho "rvDocs"
         rvDocs.adapter = adapter
+
+        // --- SỰ KIỆN CLICK NÚT BẢNG XẾP HẠNG ---
+        view.findViewById<View>(R.id.btn_view_leaderboard)?.setOnClickListener {
+            (activity as? MainActivity)?.openFragment(LeaderboardFragment())
+        }
+        // -----------------------------------------
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -77,7 +74,10 @@ class ProfileFragment : Fragment() {
         })
 
         view.findViewById<ImageButton>(R.id.btn_settings)?.setOnClickListener {
-            Toast.makeText(requireContext(), "Mở cài đặt", Toast.LENGTH_SHORT).show()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_nav_host, SettingsFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
         observeViewModel(view)
@@ -94,6 +94,7 @@ class ProfileFragment : Fragment() {
                     viewModel.userProfile.collect { user ->
                         if (user != null) {
                             tvProfileName.text = "Xin chào, ${user.fullName}"
+                            // Có thể thêm hiển thị điểm số ở đây nếu muốn
                         } else {
                             tvProfileName.text = "Xin chào, Khách"
                         }
@@ -110,13 +111,11 @@ class ProfileFragment : Fragment() {
                 }
                 launch {
                     viewModel.savedDocuments.collect { entities ->
-                        // Chỗ này viewModel.savedDocuments đang là rỗng,
-                        // nên savedDocsList cũng sẽ là rỗng
                         savedDocsList = entities.map {
                             DocItem(it.documentId, it.title, it.metaInfo)
                         }
                         if (tabLayout.selectedTabPosition == 1) {
-                            showDocsForTab(1) // -> Sẽ gọi showDocsForTab(1)
+                            showDocsForTab(1)
                         }
                     }
                 }
@@ -133,23 +132,21 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    // Hàm này đã chính xác
     private fun showDocsForTab(pos: Int) {
         val list = when (pos) {
             0 -> publishedDocsList
-            1 -> savedDocsList // -> list sẽ là rỗng
+            1 -> savedDocsList
             2 -> downloadedDocsList
             else -> publishedDocsList
         }
 
-        // Vì list rỗng, code sẽ chạy vào đây
         if (list.isEmpty()) {
             rvDocs.visibility = View.GONE
             tvEmptyMessage.visibility = View.VISIBLE
 
             tvEmptyMessage.text = when (pos) {
                 0 -> "Hiện không có tài liệu đã đăng"
-                1 -> "Hiện không có tài liệu đã lưu" // -> Sẽ set text này
+                1 -> "Hiện không có tài liệu đã lưu"
                 2 -> "Hiện không có tài liệu đã tải về"
                 else -> "Không có tài liệu"
             }
@@ -157,11 +154,9 @@ class ProfileFragment : Fragment() {
             rvDocs.visibility = View.VISIBLE
             tvEmptyMessage.visibility = View.GONE
         }
-
         adapter.setAll(list)
     }
 
-    // Class DocAdapter không thay đổi
     class DocAdapter(
         private val items: MutableList<DocItem>,
         private val onDeleteClicked: (DocItem) -> Unit
@@ -187,13 +182,10 @@ class ProfileFragment : Fragment() {
                 val popup = PopupMenu(holder.itemView.context, view)
                 popup.menu.add("Xóa")
                 popup.setOnMenuItemClickListener { menuItem ->
-                    when (menuItem.title) {
-                        "Xóa" -> {
-                            onDeleteClicked(item)
-                            true
-                        }
-                        else -> false
-                    }
+                    if (menuItem.title == "Xóa") {
+                        onDeleteClicked(item)
+                        true
+                    } else false
                 }
                 popup.show()
             }
