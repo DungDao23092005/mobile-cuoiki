@@ -67,4 +67,40 @@
     <string name="appearance_language_header">Language</string>
     <string name="appearance_change_language">Change Language</string>
     <string name="current_language">English</string>
+
+    <string name="acc_sec_header">Account &amp; Security</string>
+    <string name="acc_sec_account_group">Account</string>
+    <string name="acc_sec_personal_info">Personal Info</string>
+    <string name="acc_sec_username_label">Username</string>
+    <string name="acc_sec_phone">Phone Number</string>
+    <string name="acc_sec_email">Email</string>
+    <string name="acc_sec_not_linked">Not linked</string>
+    <string name="acc_sec_security_group">Security</string>
+    <string name="acc_sec_password">Password</string>
+    <string name="acc_sec_disable_group">Disable</string>
+    <string name="acc_sec_delete_acc">Delete Account</string>
+
+    <string name="p_info_title">Personal Info</string>
+    <string name="p_info_name_hint">Username</string>
+    <string name="p_info_dob_hint">Date of Birth</string>
+    <string name="p_info_gender_label">Gender</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="p_info_save">Save Changes</string>
+    <string name="p_info_save_success">Saved info: %1$s</string>
+
+    <string name="cp_title">Change Password</string>
+    <string name="cp_current">Current Password</string>
+    <string name="cp_new">New Password</string>
+    <string name="cp_confirm">Confirm New Password</string>
+    <string name="cp_btn">Update Password</string>
+    <string name="cp_success">Password changed successfully!</string>
+
+    <string name="edit_save_btn">Save Changes</string>
+    <string name="edit_success">Updated successfully</string>
+
+    <string name="title_edit_phone">Update Phone</string>
+    <string name="label_edit_phone">New Phone Number</string>
+    <string name="title_edit_email">Update Email</string>
+    <string name="label_edit_email">Email Address</string>
 </resources>

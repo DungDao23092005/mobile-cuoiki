@@ -20,9 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource // Import stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.stushare.feature_contribution.R
 import com.stushare.feature_contribution.ui.theme.GreenPrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,12 +37,16 @@ fun AccountSecurityScreen(
     onPasswordClick: () -> Unit,
     onDeleteAccountClick: () -> Unit
 ) {
+    // Màu nền động
+    val backgroundColor = MaterialTheme.colorScheme.background
+    val dividerColor = MaterialTheme.colorScheme.outlineVariant
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Tài khoản & bảo mật",
+                        text = stringResource(R.string.acc_sec_header),
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
@@ -50,7 +56,7 @@ fun AccountSecurityScreen(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = null,
                             tint = Color.White
                         )
                     }
@@ -58,7 +64,7 @@ fun AccountSecurityScreen(
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = GreenPrimary)
             )
         },
-        containerColor = Color(0xFFF0F0F0)
+        containerColor = backgroundColor // Áp dụng màu nền động
     ) { innerPadding ->
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -67,47 +73,50 @@ fun AccountSecurityScreen(
                     .padding(innerPadding)
                     .verticalScroll(rememberScrollState())
             ) {
-                SectionHeader(title = "Tài khoản")
+                // Tài khoản
+                SectionHeader(title = stringResource(R.string.acc_sec_account_group))
 
                 AccountItem(
-                    title = "Thông tin cá nhân",
-                    subtitle = "Tên người dùng",
+                    title = stringResource(R.string.acc_sec_personal_info),
+                    subtitle = stringResource(R.string.acc_sec_username_label),
                     iconVector = Icons.Default.Person,
                     isAvatar = true,
                     onClick = onPersonalInfoClick
                 )
                 
-                HorizontalDivider(thickness = 1.dp, color = Color(0xFFEEEEEE))
+                HorizontalDivider(thickness = 1.dp, color = dividerColor)
 
                 AccountItem(
-                    title = "Số điện thoại",
+                    title = stringResource(R.string.acc_sec_phone),
                     subtitle = "(+84) 123 456 789",
                     iconVector = Icons.Default.Phone,
                     onClick = onPhoneClick
                 )
 
-                HorizontalDivider(thickness = 1.dp, color = Color(0xFFEEEEEE))
+                HorizontalDivider(thickness = 1.dp, color = dividerColor)
 
                 AccountItem(
-                    title = "Email",
-                    subtitle = "Chưa liên kết",
+                    title = stringResource(R.string.acc_sec_email),
+                    subtitle = stringResource(R.string.acc_sec_not_linked),
                     iconVector = Icons.Default.Email,
                     onClick = onEmailClick
                 )
 
-                SectionHeader(title = "Bảo mật")
+                // Bảo mật
+                SectionHeader(title = stringResource(R.string.acc_sec_security_group))
 
                 AccountItem(
-                    title = "Mật khẩu",
+                    title = stringResource(R.string.acc_sec_password),
                     subtitle = null,
                     iconVector = Icons.Default.Lock,
                     onClick = onPasswordClick
                 )
 
-                SectionHeader(title = "Vô hiệu hóa")
+                // Vô hiệu hóa
+                SectionHeader(title = stringResource(R.string.acc_sec_disable_group))
 
                 AccountItem(
-                    title = "Xóa tài khoản",
+                    title = stringResource(R.string.acc_sec_delete_acc),
                     subtitle = null,
                     iconVector = null,
                     onClick = onDeleteAccountClick
@@ -150,10 +159,14 @@ fun AccountItem(
     isAvatar: Boolean = false,
     onClick: () -> Unit
 ) {
+    // Màu thẻ động
+    val surfaceColor = MaterialTheme.colorScheme.surface
+    val onSurfaceColor = MaterialTheme.colorScheme.onSurface
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White)
+            .background(surfaceColor) // Nền thẻ động
             .clickable(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -163,12 +176,12 @@ fun AccountItem(
                 Surface(
                     modifier = Modifier.size(48.dp),
                     shape = CircleShape,
-                    color = Color(0xFFE0E0E0)
+                    color = MaterialTheme.colorScheme.surfaceVariant // Nền avatar động
                 ) {
                     Icon(
                         imageVector = iconVector,
                         contentDescription = null,
-                        tint = Color.Gray,
+                        tint = onSurfaceColor.copy(alpha = 0.6f),
                         modifier = Modifier.padding(10.dp)
                     )
                 }
@@ -188,7 +201,7 @@ fun AccountItem(
                 text = title,
                 fontSize = 16.sp,
                 fontWeight = if (isAvatar) FontWeight.Normal else FontWeight.Medium,
-                color = Color.Black
+                color = onSurfaceColor // Chữ động
             )
             if (subtitle != null) {
                 Spacer(modifier = Modifier.height(4.dp))
@@ -196,7 +209,7 @@ fun AccountItem(
                     text = subtitle,
                     fontSize = 14.sp,
                     fontWeight = if (isAvatar) FontWeight.Bold else FontWeight.Normal,
-                    color = if (isAvatar) Color.Black else Color.Gray
+                    color = if (isAvatar) onSurfaceColor else onSurfaceColor.copy(alpha = 0.6f)
                 )
             }
         }
@@ -204,7 +217,7 @@ fun AccountItem(
         Icon(
             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
             contentDescription = null,
-            tint = Color.Gray
+            tint = onSurfaceColor.copy(alpha = 0.4f)
         )
     }
 }

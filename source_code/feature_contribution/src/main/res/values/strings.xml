@@ -67,4 +67,40 @@
     <string name="appearance_language_header">Ngôn ngữ</string>
     <string name="appearance_change_language">Thay đổi ngôn ngữ</string>
     <string name="current_language">Tiếng Việt</string>
+
+    <string name="acc_sec_header">Tài khoản &amp; bảo mật</string>
+    <string name="acc_sec_account_group">Tài khoản</string>
+    <string name="acc_sec_personal_info">Thông tin cá nhân</string>
+    <string name="acc_sec_username_label">Tên người dùng</string>
+    <string name="acc_sec_phone">Số điện thoại</string>
+    <string name="acc_sec_email">Email</string>
+    <string name="acc_sec_not_linked">Chưa liên kết</string>
+    <string name="acc_sec_security_group">Bảo mật</string>
+    <string name="acc_sec_password">Mật khẩu</string>
+    <string name="acc_sec_disable_group">Vô hiệu hóa</string>
+    <string name="acc_sec_delete_acc">Xóa tài khoản</string>
+
+    <string name="p_info_title">Thông tin cá nhân</string>
+    <string name="p_info_name_hint">Tên người dùng</string>
+    <string name="p_info_dob_hint">Ngày sinh</string>
+    <string name="p_info_gender_label">Giới tính</string>
+    <string name="gender_male">Nam</string>
+    <string name="gender_female">Nữ</string>
+    <string name="p_info_save">Lưu thay đổi</string>
+    <string name="p_info_save_success">Đã lưu thông tin: %1$s</string>
+
+    <string name="cp_title">Đổi mật khẩu</string>
+    <string name="cp_current">Mật khẩu hiện tại</string>
+    <string name="cp_new">Mật khẩu mới</string>
+    <string name="cp_confirm">Xác nhận mật khẩu mới</string>
+    <string name="cp_btn">Cập nhật mật khẩu</string>
+    <string name="cp_success">Đổi mật khẩu thành công!</string>
+
+    <string name="edit_save_btn">Lưu thay đổi</string>
+    <string name="edit_success">Đã cập nhật thành công</string>
+    
+    <string name="title_edit_phone">Cập nhật SĐT</string>
+    <string name="label_edit_phone">Số điện thoại mới</string>
+    <string name="title_edit_email">Cập nhật Email</string>
+    <string name="label_edit_email">Địa chỉ Email</string>
 </resources>

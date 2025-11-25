@@ -142,9 +142,12 @@ fun AppNavigationGraph(
 
         // 11. Edit Phone
         composable(Screen.EditPhone.route) {
+            val title = androidx.compose.ui.res.stringResource(com.stushare.feature_contribution.R.string.title_edit_phone)
+            val label = androidx.compose.ui.res.stringResource(com.stushare.feature_contribution.R.string.label_edit_phone)
+            
             EditAttributeScreen(
-                title = "Cập nhật SĐT",
-                label = "Số điện thoại mới",
+                title = title,
+                label = label,
                 initialValue = "0123456789",
                 onBackClick = { navController.popBackStack() }
             )
@@ -152,9 +155,12 @@ fun AppNavigationGraph(
 
         // 12. Edit Email
         composable(Screen.EditEmail.route) {
+            val title = androidx.compose.ui.res.stringResource(com.stushare.feature_contribution.R.string.title_edit_email)
+            val label = androidx.compose.ui.res.stringResource(com.stushare.feature_contribution.R.string.label_edit_email)
+
             EditAttributeScreen(
-                title = "Cập nhật Email",
-                label = "Địa chỉ Email",
+                title = title,
+                label = label,
                 initialValue = "dungdao@test.com",
                 onBackClick = { navController.popBackStack() }
             )
