@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">StuShare</string>
+
+    <string name="back">Back</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="feature_not_supported">Feature not supported</string>
+    <string name="downloads">downloads</string>
+    <string name="points">points</string>
+
+    <string name="home_welcome">Welcome back! 👋</string>
+    <string name="home_subtitle">What do you want to learn today?</string>
+    <string name="home_popular_subjects">Popular Subjects 🔥</string>
+    <string name="home_docs_count">documents</string>
+    <string name="subject_mobile">Mobile Development</string>
+    <string name="subject_dsa">Data Structures</string>
+    <string name="subject_ai">Artificial Intelligence</string>
+    <string name="subject_network">Computer Networks</string>
+    <string name="subject_db">Databases</string>
+    <string name="subject_english">Professional English</string>
+
+    <string name="search_hint">Search for docs, subjects...</string>
+    <string name="search_empty">Enter keywords to search</string>
+    <string name="search_result_title">Results for \"%1$s\"</string>
+    <string name="search_item_prefix">Documents related to</string>
+    <string name="search_author_prefix">Posted by</string>
+
+    <string name="upload_header">Document Upload Form</string>
+    <string name="upload_selected_file">Selected file:</string>
+    <string name="upload_no_file">No file selected</string>
+    <string name="upload_choose_btn">📂 Choose Document</string>
+    <string name="upload_title_hint">Title (*)</string>
+    <string name="upload_desc_hint">Short description</string>
+    <string name="upload_btn">Upload</string>
+    <string name="upload_btn_loading">Uploading...</string>
+    <string name="upload_error_msg">Please select a file and enter a title</string>
+
+    <string name="noti_header">Your Notifications</string>
+
+    <string name="profile_hello">Hello, %1$s</string>
+    <string name="profile_guest">Guest</string>
+    <string name="profile_dept">Dept: Information Technology</string>
+    <string name="profile_view_leaderboard">🏆 View Leaderboard</string>
+    <string name="profile_tab_posted">Posted</string>
+    <string name="profile_tab_saved">Saved</string>
+    <string name="profile_tab_downloaded">Downloaded</string>
+    <string name="profile_empty_list">No documents found</string>
+    <string name="profile_delete_success">Document deleted</string>
+
+    <string name="leaderboard_title">Leaderboard 🏆</string>
+    <string name="leaderboard_tab_users">Top Contributors</string>
+    <string name="leaderboard_tab_docs">Top Documents</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="acc_security">Account &amp; Security</string>
+    <string name="notifications">Notifications</string>
+    <string name="appearance_language">Appearance &amp; Language</string>
+    <string name="about_stushare">About StuShare</string>
+    <string name="contact_support">Contact Support</string>
+    <string name="report_violation">Report Violation</string>
+    <string name="switch_account">Switch Account</string>
+    <string name="logout">Log Out</string>
+    <string name="logout_success">Logged out successfully</string>
+
+    <string name="appearance_dark_mode">Dark Mode</string>
+    <string name="appearance_font_size">Font Size</string>
+    <string name="appearance_language_header">Language</string>
+    <string name="appearance_change_language">Change Language</string>
+    <string name="current_language">English</string>
+</resources>

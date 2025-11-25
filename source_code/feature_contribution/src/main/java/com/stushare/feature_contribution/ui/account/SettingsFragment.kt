@@ -24,39 +24,57 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         // 1. Tài khoản và bảo mật -> Vào màn PersonalInfoFragment
         view.findViewById<View>(R.id.item_account).setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.main_nav_host, PersonalInfoFragment())
+                .replace(R.id.main_nav_host, AccountSecurityFragment())
                 .addToBackStack(null)
                 .commit()
         }
 
         // 2. Thông báo
         view.findViewById<View>(R.id.item_noti).setOnClickListener {
-            Toast.makeText(context, "Cài đặt Thông báo", Toast.LENGTH_SHORT).show()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_nav_host, NotiSettingsFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
         // 3. Giao diện
         view.findViewById<View>(R.id.item_appearance).setOnClickListener {
-            Toast.makeText(context, "Cài đặt Giao diện", Toast.LENGTH_SHORT).show()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_nav_host, AppearanceSettingsFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
         // 4. Thông tin về StuShare
         view.findViewById<View>(R.id.item_about).setOnClickListener {
-            Toast.makeText(context, "Phiên bản 1.0.0", Toast.LENGTH_SHORT).show()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_nav_host, AboutAppFragment()) // Mở màn hình vừa tạo
+                .addToBackStack(null)
+                .commit()
         }
 
         // 5. Liên hệ hỗ trợ
         view.findViewById<View>(R.id.item_support).setOnClickListener {
-            Toast.makeText(context, "Mở chat hỗ trợ", Toast.LENGTH_SHORT).show()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_nav_host, ContactSupportFragment()) // Mở ContactSupportFragment
+                .addToBackStack(null)
+                .commit()
         }
 
         // 6. Báo cáo vi phạm
         view.findViewById<View>(R.id.item_report).setOnClickListener {
-            Toast.makeText(context, "Báo cáo vi phạm", Toast.LENGTH_SHORT).show()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_nav_host, ReportViolationFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
         // 7. Chuyển tài khoản
         view.findViewById<View>(R.id.item_switch_account).setOnClickListener {
-            Toast.makeText(context, "Chuyển tài khoản", Toast.LENGTH_SHORT).show()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_nav_host, SwitchAccountFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
         // Nút Đăng xuất

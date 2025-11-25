@@ -1,39 +1,30 @@
 package com.stushare.feature_contribution.ui.leaderboard
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageButton
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import com.stushare.feature_contribution.R
-import com.stushare.feature_contribution.MainActivity
+import androidx.fragment.app.viewModels
+import com.stushare.feature_contribution.ui.theme.StuShareTheme
 
-class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
+class LeaderboardFragment : Fragment() {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private val viewModel: LeaderboardViewModel by viewModels()
 
-        val tabLayout = view.findViewById<TabLayout>(R.id.tab_leaderboard)
-        val viewPager = view.findViewById<ViewPager2>(R.id.pager_leaderboard)
-        val btnBack = view.findViewById<ImageButton>(R.id.btn_back_leaderboard)
-
-        viewPager.adapter = LeaderboardPagerAdapter(this)
-
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = when (position) {
-                0 -> "Top người đóng góp"
-                1 -> "Top tài liệu"
-                else -> null
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                StuShareTheme {
+                    LeaderboardScreen(
+                        viewModel = viewModel,
+                        onBackClick = { parentFragmentManager.popBackStack() }
+                    )
+                }
             }
-        }.attach()
-
-        btnBack.setOnClickListener {
-            (activity as? MainActivity)?.openFragment(
-                com.stushare.feature_contribution.ui.account.ProfileFragment(),
-                addToBackStack = false
-            )
         }
     }
 }

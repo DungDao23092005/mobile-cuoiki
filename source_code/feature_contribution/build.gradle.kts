@@ -3,6 +3,7 @@ plugins {
     kotlin("android")
     alias(libs.plugins.ksp)
     alias(libs.plugins.google.services)
+    alias(libs.plugins.kotlin.compose)
 
 }
 
@@ -37,8 +38,12 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true // bật nếu dùng viewBinding
-        // dataBinding = true // bật nếu cần
+        viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1" // Hoặc version tương thích với Kotlin bạn đang dùng
     }
 }
 
@@ -70,4 +75,22 @@ dependencies {
     implementation(libs.firebase.firestore)
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")
+
+    val composeBom = platform(libs.androidx.compose.bom)
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.0")
+    implementation(libs.androidx.activity.compose)
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("androidx.navigation:navigation-compose:2.8.0")
 }

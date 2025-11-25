@@ -20,5 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "App"
-include(":app")
 include(":feature_contribution")

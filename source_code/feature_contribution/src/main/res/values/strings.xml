@@ -1,5 +1,70 @@
 <resources>
-    <string name="app_name">feature_contribution</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">StuShare</string>
+
+    <string name="back">Quay lại</string>
+    <string name="cancel">Hủy</string>
+    <string name="delete">Xóa</string>
+    <string name="feature_not_supported">Chức năng chưa hỗ trợ</string>
+    <string name="downloads">lượt tải</string>
+    <string name="points">điểm</string>
+
+    <string name="home_welcome">Chào mừng trở lại! 👋</string>
+    <string name="home_subtitle">Hôm nay bạn muốn học gì?</string>
+    <string name="home_popular_subjects">Môn học phổ biến 🔥</string>
+    <string name="home_docs_count">tài liệu</string>
+    <string name="subject_mobile">Lập trình Di động</string>
+    <string name="subject_dsa">Cấu trúc dữ liệu</string>
+    <string name="subject_ai">Trí tuệ nhân tạo</string>
+    <string name="subject_network">Mạng máy tính</string>
+    <string name="subject_db">Cơ sở dữ liệu</string>
+    <string name="subject_english">Tiếng Anh chuyên ngành</string>
+
+    <string name="search_hint">Tìm kiếm tài liệu, môn học...</string>
+    <string name="search_empty">Nhập từ khóa để tìm kiếm</string>
+    <string name="search_result_title">Kết quả cho \"%1$s\"</string>
+    <string name="search_item_prefix">Tài liệu liên quan đến</string>
+    <string name="search_author_prefix">Đăng bởi</string>
+
+    <string name="upload_header">Form thông tin Tài liệu</string>
+    <string name="upload_selected_file">Tên file đã chọn:</string>
+    <string name="upload_no_file">Chưa chọn file</string>
+    <string name="upload_choose_btn">📂 Chọn file tài liệu</string>
+    <string name="upload_title_hint">Tiêu đề (*)</string>
+    <string name="upload_desc_hint">Mô tả ngắn</string>
+    <string name="upload_btn">Upload</string>
+    <string name="upload_btn_loading">Đang tải...</string>
+    <string name="upload_error_msg">Vui lòng chọn file và nhập tiêu đề</string>
+
+    <string name="noti_header">Thông báo của bạn</string>
+
+    <string name="profile_hello">Xin chào, %1$s</string>
+    <string name="profile_guest">Khách</string>
+    <string name="profile_dept">Khoa: Công nghệ thông tin</string>
+    <string name="profile_view_leaderboard">🏆 Xem Bảng xếp hạng</string>
+    <string name="profile_tab_posted">Đã đăng</string>
+    <string name="profile_tab_saved">Đã lưu</string>
+    <string name="profile_tab_downloaded">Đã tải về</string>
+    <string name="profile_empty_list">Hiện không có tài liệu nào</string>
+    <string name="profile_delete_success">Đã xóa tài liệu</string>
+
+    <string name="leaderboard_title">Bảng xếp hạng 🏆</string>
+    <string name="leaderboard_tab_users">Top người đóng góp</string>
+    <string name="leaderboard_tab_docs">Top tài liệu</string>
+
+    <string name="settings_title">Cài đặt</string>
+    <string name="acc_security">Tài khoản và bảo mật</string>
+    <string name="notifications">Thông báo</string>
+    <string name="appearance_language">Giao diện &amp; ngôn ngữ</string>
+    <string name="about_stushare">Thông tin về StuShare</string>
+    <string name="contact_support">Liên hệ hỗ trợ</string>
+    <string name="report_violation">Báo cáo vi phạm</string>
+    <string name="switch_account">Chuyển tài khoản</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="logout_success">Đăng xuất thành công</string>
+
+    <string name="appearance_dark_mode">Giao diện Tối (Dark Mode)</string>
+    <string name="appearance_font_size">Đổi cỡ chữ</string>
+    <string name="appearance_language_header">Ngôn ngữ</string>
+    <string name="appearance_change_language">Thay đổi ngôn ngữ</string>
+    <string name="current_language">Tiếng Việt</string>
 </resources>
