@@ -12,9 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.stushare.feature_contribution.R
 import com.stushare.feature_contribution.ui.theme.GreenPrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,17 +24,19 @@ import com.stushare.feature_contribution.ui.theme.GreenPrimary
 fun NotificationSettingsScreen(
     onBackClick: () -> Unit
 ) {
-    // State lưu trạng thái bật/tắt của các nút
     var isNotificationEnabled by remember { mutableStateOf(true) }
     var isSoundEnabled by remember { mutableStateOf(true) }
     var isVibrateEnabled by remember { mutableStateOf(true) }
+
+    val backgroundColor = MaterialTheme.colorScheme.background
+    val dividerColor = MaterialTheme.colorScheme.outlineVariant
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Thông báo",
+                        text = stringResource(R.string.notifications),
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
@@ -42,7 +46,7 @@ fun NotificationSettingsScreen(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = null,
                             tint = Color.White
                         )
                     }
@@ -50,7 +54,7 @@ fun NotificationSettingsScreen(
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = GreenPrimary)
             )
         },
-        containerColor = Color(0xFFF0F0F0) // Màu nền xám nhẹ
+        containerColor = backgroundColor
     ) { innerPadding ->
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -58,43 +62,43 @@ fun NotificationSettingsScreen(
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                // --- Section 1: Bật/Tắt ---
-                SettingsSectionHeader(title = "Bật/Tắt thông báo")
+                // --- Section 1 ---
+                SettingsSectionHeader(title = stringResource(R.string.noti_set_section_enable))
                 
                 SwitchItem(
-                    title = "Thông báo",
+                    title = stringResource(R.string.notifications),
                     icon = Icons.Default.Notifications,
                     checked = isNotificationEnabled,
                     onCheckedChange = { isNotificationEnabled = it }
                 )
 
-                // --- Section 2: Chi tiết ---
-                SettingsSectionHeader(title = "Thông báo trong StuShare")
+                // --- Section 2 ---
+                SettingsSectionHeader(title = stringResource(R.string.noti_set_section_in_app))
 
                 SwitchItem(
-                    title = "Phát âm khi có thông báo",
-                    icon = null, // Không có icon
+                    title = stringResource(R.string.noti_set_sound),
+                    icon = null,
                     checked = isSoundEnabled,
                     onCheckedChange = { isSoundEnabled = it }
                 )
                 
-                HorizontalDivider(thickness = 1.dp, color = Color(0xFFEEEEEE))
+                HorizontalDivider(thickness = 1.dp, color = dividerColor)
 
                 SwitchItem(
-                    title = "Rung khi có thông báo",
+                    title = stringResource(R.string.noti_set_vibrate),
                     icon = null,
                     checked = isVibrateEnabled,
                     onCheckedChange = { isVibrateEnabled = it }
                 )
             }
 
-            // --- Bottom Curve (Hình cung màu xanh ở đáy giống ảnh mẫu) ---
+            // Bottom Curve
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
                     .height(120.dp)
-                    .offset(y = 60.dp) // Đẩy xuống một nửa
+                    .offset(y = 60.dp)
                     .background(
                         color = GreenPrimary,
                         shape = RoundedCornerShape(topStart = 1000.dp, topEnd = 1000.dp)
@@ -109,12 +113,12 @@ fun SettingsSectionHeader(title: String) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFFE0E0E0)) // Nền xám cho header section
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
         Text(
             text = title,
-            color = GreenPrimary, // Chữ màu xanh
+            color = GreenPrimary,
             fontWeight = FontWeight.Bold,
             fontSize = 15.sp
         )
@@ -128,14 +132,16 @@ fun SwitchItem(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit
 ) {
+    val onSurfaceColor = MaterialTheme.colorScheme.onSurface
+    val surfaceColor = MaterialTheme.colorScheme.surface
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White)
+            .background(surfaceColor)
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Icon (nếu có)
         if (icon != null) {
             Icon(
                 imageVector = icon,
@@ -146,24 +152,22 @@ fun SwitchItem(
             Spacer(modifier = Modifier.width(16.dp))
         }
 
-        // Text
         Text(
             text = title,
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
-            color = Color.Black,
+            color = onSurfaceColor,
             modifier = Modifier.weight(1f)
         )
 
-        // Switch (Nút gạt)
         Switch(
             checked = checked,
             onCheckedChange = onCheckedChange,
             colors = SwitchDefaults.colors(
                 checkedThumbColor = Color.White,
-                checkedTrackColor = GreenPrimary, // Màu xanh khi bật
+                checkedTrackColor = GreenPrimary,
                 uncheckedThumbColor = Color.Gray,
-                uncheckedTrackColor = Color(0xFFE0E0E0),
+                uncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant,
                 uncheckedBorderColor = Color.Gray
             )
         )

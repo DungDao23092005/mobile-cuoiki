@@ -15,9 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource // Import quan trọng
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.stushare.feature_contribution.R
 import com.stushare.feature_contribution.ui.theme.GreenPrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,20 +31,27 @@ fun ReportViolationScreen(
     var selectedReason by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
 
+    // Lấy danh sách lý do từ string resource
     val reasons = listOf(
-        "Nội dung rác / Spam",
-        "Thông tin sai lệch",
-        "Vi phạm bản quyền tài liệu",
-        "Ngôn từ đả kích / Xúc phạm",
-        "Lý do khác"
+        stringResource(R.string.report_reason_spam),
+        stringResource(R.string.report_reason_fake),
+        stringResource(R.string.report_reason_copyright),
+        stringResource(R.string.report_reason_harassment),
+        stringResource(R.string.report_reason_other)
     )
+
+    // Lấy màu động từ Theme
+    val backgroundColor = MaterialTheme.colorScheme.background
+    val surfaceColor = MaterialTheme.colorScheme.surface
+    val onSurfaceColor = MaterialTheme.colorScheme.onSurface
+    val dividerColor = MaterialTheme.colorScheme.outlineVariant
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Báo cáo vi phạm",
+                        text = stringResource(R.string.report_header),
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
@@ -52,7 +61,7 @@ fun ReportViolationScreen(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = null,
                             tint = Color.White
                         )
                     }
@@ -60,7 +69,7 @@ fun ReportViolationScreen(
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = GreenPrimary)
             )
         },
-        containerColor = Color(0xFFF0F0F0)
+        containerColor = backgroundColor // Nền động
     ) { innerPadding ->
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -73,7 +82,7 @@ fun ReportViolationScreen(
 
                 // Title
                 Text(
-                    text = "Vấn đề bạn gặp phải là gì?",
+                    text = stringResource(R.string.report_question),
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     color = GreenPrimary,
@@ -87,7 +96,7 @@ fun ReportViolationScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    colors = CardDefaults.cardColors(containerColor = surfaceColor), // Thẻ động
                     shape = RoundedCornerShape(12.dp),
                     elevation = CardDefaults.cardElevation(2.dp)
                 ) {
@@ -108,11 +117,14 @@ fun ReportViolationScreen(
                                 Text(
                                     text = reason,
                                     style = MaterialTheme.typography.bodyMedium,
-                                    color = Color.Black
+                                    color = onSurfaceColor // Chữ động
                                 )
                             }
                             if (index < reasons.size - 1) {
-                                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = Color(0xFFEEEEEE))
+                                HorizontalDivider(
+                                    modifier = Modifier.padding(horizontal = 16.dp), 
+                                    color = dividerColor
+                                )
                             }
                         }
                     }
@@ -122,7 +134,7 @@ fun ReportViolationScreen(
 
                 // Description (Mô tả)
                 Text(
-                    text = "Mô tả chi tiết (Tùy chọn)",
+                    text = stringResource(R.string.report_desc_label),
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     color = GreenPrimary,
@@ -134,29 +146,39 @@ fun ReportViolationScreen(
                 OutlinedTextField(
                     value = description,
                     onValueChange = { description = it },
-                    placeholder = { Text("Nhập thêm thông tin để chúng tôi hỗ trợ tốt hơn...") },
+                    placeholder = { 
+                        Text(
+                            stringResource(R.string.report_desc_hint), 
+                            color = onSurfaceColor.copy(alpha = 0.6f)
+                        ) 
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
                         .height(150.dp)
-                        .background(Color.White, RoundedCornerShape(12.dp)),
+                        .background(surfaceColor, RoundedCornerShape(12.dp)), // Nền input động
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = GreenPrimary,
-                        unfocusedBorderColor = Color.LightGray
+                        unfocusedBorderColor = dividerColor,
+                        focusedTextColor = onSurfaceColor,
+                        unfocusedTextColor = onSurfaceColor
                     )
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
 
                 // Submit Button (Nút gửi)
+                val successMsg = stringResource(R.string.report_success)
+                val errorMsg = stringResource(R.string.report_error_select)
+                
                 Button(
                     onClick = {
                         if (selectedReason.isNotEmpty()) {
-                            Toast.makeText(context, "Đã gửi báo cáo. Cảm ơn bạn!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, successMsg, Toast.LENGTH_SHORT).show()
                             onBackClick()
                         } else {
-                            Toast.makeText(context, "Vui lòng chọn lý do", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
                         }
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = GreenPrimary),
@@ -166,7 +188,7 @@ fun ReportViolationScreen(
                         .height(50.dp),
                     shape = RoundedCornerShape(25.dp)
                 ) {
-                    Text("Gửi báo cáo", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.report_btn_submit), fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 }
                 
                 Spacer(modifier = Modifier.height(100.dp))

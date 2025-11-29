@@ -17,9 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource // Import quan trọng
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.stushare.feature_contribution.R
 import com.stushare.feature_contribution.ui.theme.GreenPrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,12 +40,18 @@ fun SwitchAccountScreen(
         AccountInfo("user3", "Trần Thị B", "tranthib@school.edu.vn")
     )
 
+    // Lấy màu động từ Theme
+    val backgroundColor = MaterialTheme.colorScheme.background
+    val surfaceColor = MaterialTheme.colorScheme.surface
+    val onSurfaceColor = MaterialTheme.colorScheme.onSurface
+    val dividerColor = MaterialTheme.colorScheme.outlineVariant
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Chuyển tài khoản",
+                        text = stringResource(R.string.switch_acc_header),
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
@@ -53,7 +61,7 @@ fun SwitchAccountScreen(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = null,
                             tint = Color.White
                         )
                     }
@@ -61,7 +69,7 @@ fun SwitchAccountScreen(
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = GreenPrimary)
             )
         },
-        containerColor = Color(0xFFF0F0F0)
+        containerColor = backgroundColor // Nền động
     ) { innerPadding ->
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -77,11 +85,11 @@ fun SwitchAccountScreen(
                         isActive = account.id == activeAccountId,
                         onClick = {
                             activeAccountId = account.id
-                            Toast.makeText(context, "Đã chuyển sang: ${account.name}", Toast.LENGTH_SHORT).show()
-                            // Thực tế: Gọi ViewModel để đổi session và navigate về Home
+                            val msg = context.getString(R.string.switch_acc_switched, account.name)
+                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
                         }
                     )
-                    HorizontalDivider(color = Color(0xFFEEEEEE))
+                    HorizontalDivider(color = dividerColor)
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -89,7 +97,7 @@ fun SwitchAccountScreen(
                 // Nút thêm tài khoản
                 Button(
                     onClick = { Toast.makeText(context, "Chức năng Thêm tài khoản", Toast.LENGTH_SHORT).show() },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                    colors = ButtonDefaults.buttonColors(containerColor = surfaceColor), // Nền nút động
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
@@ -104,7 +112,7 @@ fun SwitchAccountScreen(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Thêm tài khoản mới",
+                        text = stringResource(R.string.switch_acc_add),
                         color = GreenPrimary,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
@@ -136,10 +144,15 @@ fun AccountItemRow(
     isActive: Boolean,
     onClick: () -> Unit
 ) {
+    val surfaceColor = MaterialTheme.colorScheme.surface
+    val onSurfaceColor = MaterialTheme.colorScheme.onSurface
+    // Màu nền khi active: Xanh nhạt (Sáng) hoặc Xám đậm (Tối)
+    val activeBgColor = if (isActive) GreenPrimary.copy(alpha = 0.1f) else surfaceColor
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(if (isActive) Color(0xFFE8F5E9) else Color.White) // Xanh nhạt nếu active
+            .background(activeBgColor) 
             .clickable(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -148,12 +161,12 @@ fun AccountItemRow(
         Surface(
             modifier = Modifier.size(48.dp),
             shape = CircleShape,
-            color = if (isActive) GreenPrimary else Color(0xFFE0E0E0)
+            color = if (isActive) GreenPrimary else MaterialTheme.colorScheme.surfaceVariant
         ) {
             Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = null,
-                tint = Color.White,
+                tint = if (isActive) Color.White else onSurfaceColor.copy(alpha = 0.5f),
                 modifier = Modifier.padding(10.dp)
             )
         }
@@ -166,12 +179,12 @@ fun AccountItemRow(
                 text = account.name,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = onSurfaceColor // Chữ động
             )
             Text(
                 text = account.email,
                 fontSize = 14.sp,
-                color = Color.Gray
+                color = onSurfaceColor.copy(alpha = 0.6f)
             )
         }
 
@@ -179,7 +192,7 @@ fun AccountItemRow(
         if (isActive) {
             Icon(
                 imageVector = Icons.Default.Check,
-                contentDescription = "Active",
+                contentDescription = stringResource(R.string.switch_acc_active),
                 tint = GreenPrimary
             )
         }

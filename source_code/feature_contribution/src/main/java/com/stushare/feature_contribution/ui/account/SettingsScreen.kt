@@ -19,11 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource // Import quan trọng
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.stushare.feature_contribution.R // Import R của module
+import com.stushare.feature_contribution.R
 import com.stushare.feature_contribution.ui.theme.GreenPrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,16 +39,12 @@ fun SettingsScreen(
     onSwitchAccountClick: () -> Unit
 ) {
     val context = LocalContext.current
-    // Lấy màu động từ Theme
     val backgroundColor = MaterialTheme.colorScheme.background
-    val surfaceColor = MaterialTheme.colorScheme.surface
-    val onSurfaceColor = MaterialTheme.colorScheme.onSurface
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    // Dùng stringResource thay vì chuỗi cứng
                     Text(
                         text = stringResource(R.string.settings_title),
                         color = Color.White,
@@ -68,7 +64,7 @@ fun SettingsScreen(
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = GreenPrimary)
             )
         },
-        containerColor = backgroundColor // Áp dụng màu nền động
+        containerColor = backgroundColor
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -177,14 +173,13 @@ fun SettingsItem(
     title: String,
     onClick: () -> Unit
 ) {
-    // Lấy màu động cho từng Item
     val surfaceColor = MaterialTheme.colorScheme.surface
     val onSurfaceColor = MaterialTheme.colorScheme.onSurface
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(surfaceColor) // Nền item động
+            .background(surfaceColor)
             .clickable(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -202,14 +197,14 @@ fun SettingsItem(
             text = title,
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
-            color = onSurfaceColor, // Chữ màu động (Đen khi sáng, Trắng khi tối)
+            color = onSurfaceColor,
             modifier = Modifier.weight(1f)
         )
         
         Icon(
             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
             contentDescription = null,
-            tint = onSurfaceColor.copy(alpha = 0.5f), // Icon mũi tên màu động
+            tint = onSurfaceColor.copy(alpha = 0.5f),
             modifier = Modifier.size(24.dp)
         )
     }

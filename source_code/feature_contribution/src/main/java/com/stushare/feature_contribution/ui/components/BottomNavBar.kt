@@ -23,14 +23,17 @@ fun BottomNavBar(navController: NavController) {
     val items = listOf(
         Screen.Home to Icons.Default.Home,
         Screen.Search to Icons.Default.Search,
-        Screen.Upload to Icons.Default.AddCircle, // Nút Upload ở giữa
+        Screen.Upload to Icons.Default.AddCircle,
         Screen.Noti to Icons.Default.Notifications,
         Screen.Profile to Icons.Default.Person
     )
+    val containerColor = MaterialTheme.colorScheme.surface 
+    val unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant 
 
     NavigationBar(
-        containerColor = Color.White,
-        contentColor = GreenPrimary
+        containerColor = containerColor,
+        contentColor = GreenPrimary,
+        tonalElevation = 8.dp
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -38,32 +41,30 @@ fun BottomNavBar(navController: NavController) {
         items.forEach { (screen, icon) ->
             val isUpload = screen == Screen.Upload
             val isSelected = currentRoute == screen.route
+            val iconTint = if (isUpload || isSelected) GreenPrimary else unselectedIconColor
 
             NavigationBarItem(
                 icon = {
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        // Làm nút Upload to hơn và nổi bật
                         modifier = if (isUpload) Modifier.size(48.dp) else Modifier.size(24.dp),
-                        tint = if (isUpload) GreenPrimary else if (isSelected) GreenPrimary else Color.Gray
+                        tint = iconTint
                     )
                 },
                 selected = isSelected,
-                // Ẩn label để giống thiết kế cũ
-                label = null, 
+                label = null,
                 onClick = {
-                    navController.navigate(screen.route) {
-                        // Logic để tránh chồng stack khi bấm nhiều lần
-                        popUpTo(navController.graph.startDestinationId) {
-                            saveState = true
+                    if (currentRoute != screen.route) {
+                        navController.navigate(screen.route) {
+                            popUpTo(navController.graph.startDestinationId) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = Color.Transparent // Bỏ nền oval mặc định của Material3
+                    indicatorColor = Color.Transparent
                 )
             )
         }

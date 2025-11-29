@@ -103,4 +103,83 @@
     <string name="label_edit_phone">New Phone Number</string>
     <string name="title_edit_email">Update Email</string>
     <string name="label_edit_email">Email Address</string>
+
+    <string name="noti_set_section_enable">Enable/Disable Notifications</string>
+    <string name="noti_set_section_in_app">In-App Notifications</string>
+    <string name="noti_set_sound">Play sound</string>
+    <string name="noti_set_vibrate">Vibrate</string>
+
+    <string name="font_small">Small</string>
+    <string name="font_medium">Medium</string>
+    <string name="font_large">Large</string>
+
+    <string name="about_version_title">Version 25.10.03</string>
+    <string name="about_version_subtitle">You are using the latest version</string>
+    <string name="about_terms">Terms of Use</string>
+    <string name="about_privacy">Privacy Policy</string>
+
+    <string name="support_header">Contact Support</string>
+    <string name="support_online_channel">Online Support Channels</string>
+    <string name="support_chat_title">Chat with Support Agent</string>
+    <string name="support_chat_desc">Average response time: 5 mins</string>
+    <string name="support_email_title">Send Email Request</string>
+    <string name="support_other_channel">Other Channels</string>
+    <string name="support_hotline_title">Hotline</string>
+    <string name="support_hotline_desc">1900 1234 (8:00 AM - 5:00 PM)</string>
+    <string name="support_faq_title">Frequently Asked Questions (FAQ)</string>
+    <string name="support_faq_desc">View common issues</string>
+
+    <string name="report_header">Report Violation</string>
+    <string name="report_question">What issue are you facing?</string>
+    <string name="report_reason_spam">Spam / Junk Content</string>
+    <string name="report_reason_fake">False Information</string>
+    <string name="report_reason_copyright">Copyright Infringement</string>
+    <string name="report_reason_harassment">Harassment / Hate Speech</string>
+    <string name="report_reason_other">Other Reason</string>
+    <string name="report_desc_label">Detailed Description (Optional)</string>
+    <string name="report_desc_hint">Enter more details to help us support better...</string>
+    <string name="report_btn_submit">Submit Report</string>
+    <string name="report_success">Report sent. Thank you!</string>
+    <string name="report_error_select">Please select a reason</string>
+
+    <string name="switch_acc_header">Switch Account</string>
+    <string name="switch_acc_add">Add New Account</string>
+    <string name="switch_acc_switched">Switched to: %1$s</string>
+    <string name="switch_acc_active">Active</string>
+
+    <string name="terms_header">Terms of Use</string>
+    <string name="terms_content">
+        Welcome to StuShare - The learning resource sharing community.\n\n
+        1. ACCEPTANCE OF TERMS\n
+        By downloading, installing, and using StuShare, you agree to comply with these Terms of Use. If you do not agree, please do not use the app.\n\n
+        2. INTELLECTUAL PROPERTY\n
+        Any document you upload to StuShare must belong to you or you must have the legal right to share it. You are solely responsible for the copyright of the content you upload.\n\n
+        3. CODE OF CONDUCT\n
+        - Do not upload illegal, obscene, violent, or offensive content.\n
+        - No spamming or unauthorized advertising.\n
+        - Respect the community and other members.\n\n
+        4. DISCLAIMER\n
+        StuShare is an intermediary platform. We are not responsible for the accuracy or reliability of documents uploaded by users.\n\n
+        5. VIOLATION HANDLING\n
+        We reserve the right to remove any content that violates these terms and ban user accounts without prior notice.
+    </string>
+
+    <string name="privacy_header">Privacy Policy</string>
+    <string name="privacy_content">
+        StuShare is committed to protecting your privacy.\n\n
+        1. INFORMATION COLLECTION\n
+        We collect the following information to provide our services:\n
+        - Personal Info: Name, Email, Profile Picture (upon login).\n
+        - Usage Data: Download history, saved documents list.\n\n
+        2. USE OF INFORMATION\n
+        - Account management and user authentication.\n
+        - Improving user experience and document recommendations.\n
+        - Sending notifications about important updates.\n\n
+        3. DATA SECURITY\n
+        All your data is encrypted and stored securely on our servers. We implement advanced technical measures to prevent unauthorized access.\n\n
+        4. DATA SHARING\n
+        We commit NOT to sell, trade, or share your personal information with third parties, unless required by law enforcement agencies.\n\n
+        5. YOUR RIGHTS\n
+        You have the right to access, correct, or request the deletion of your personal data at any time via the Settings section in the app.
+    </string>
 </resources>

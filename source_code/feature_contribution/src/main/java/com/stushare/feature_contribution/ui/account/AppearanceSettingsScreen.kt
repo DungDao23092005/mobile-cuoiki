@@ -14,11 +14,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.stushare.feature_contribution.R
 import com.stushare.feature_contribution.ui.theme.GreenPrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,17 +36,24 @@ fun AppearanceSettingsScreen(
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showFontDialog by remember { mutableStateOf(false) }
 
-    // Màu nền động: Sáng -> F0F0F0, Tối -> 121212 (Lấy từ Theme)
-    val backgroundColor = MaterialTheme.colorScheme.background 
-    // Màu thẻ động: Sáng -> White, Tối -> 1E1E1E
+    // Lấy màu động từ Theme
+    val backgroundColor = MaterialTheme.colorScheme.background
     val surfaceColor = MaterialTheme.colorScheme.surface
-    // Màu chữ động: Sáng -> Black, Tối -> White
     val onSurfaceColor = MaterialTheme.colorScheme.onSurface
+    val dividerColor = MaterialTheme.colorScheme.outlineVariant
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Giao diện & ngôn ngữ", color = Color.White, fontWeight = FontWeight.Bold) },
+                title = { 
+                    // Tiêu đề động
+                    Text(
+                        text = stringResource(R.string.appearance_language), 
+                        color = Color.White, 
+                        fontWeight = FontWeight.Bold, 
+                        fontSize = 20.sp
+                    ) 
+                },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null, tint = Color.White)
@@ -53,7 +62,7 @@ fun AppearanceSettingsScreen(
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = GreenPrimary)
             )
         },
-        containerColor = backgroundColor // <--- Dùng màu động
+        containerColor = backgroundColor
     ) { innerPadding ->
         Box(modifier = Modifier.fillMaxSize()) {
             Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
@@ -63,13 +72,25 @@ fun AppearanceSettingsScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(surfaceColor) // <--- Dùng màu động
+                        .background(surfaceColor)
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(Icons.Default.Settings, contentDescription = null, tint = GreenPrimary, modifier = Modifier.size(24.dp))
+                    Icon(
+                        imageVector = Icons.Default.Settings, 
+                        contentDescription = null, 
+                        tint = GreenPrimary, 
+                        modifier = Modifier.size(24.dp)
+                    )
                     Spacer(modifier = Modifier.width(16.dp))
-                    Text("Giao diện Tối (Dark Mode)", fontSize = 16.sp, fontWeight = FontWeight.Medium, color = onSurfaceColor, modifier = Modifier.weight(1f))
+                    // Text động
+                    Text(
+                        text = stringResource(R.string.appearance_dark_mode),
+                        fontSize = 16.sp, 
+                        fontWeight = FontWeight.Medium, 
+                        color = onSurfaceColor,
+                        modifier = Modifier.weight(1f)
+                    )
                     Switch(
                         checked = isDarkTheme,
                         onCheckedChange = { viewModel.toggleTheme(it) },
@@ -80,86 +101,165 @@ fun AppearanceSettingsScreen(
                     )
                 }
 
-                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                HorizontalDivider(color = dividerColor)
 
                 // 2. Đổi cỡ chữ
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(surfaceColor) // <--- Dùng màu động
+                        .background(surfaceColor)
                         .clickable { showFontDialog = true }
                         .padding(horizontal = 16.dp, vertical = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Đổi cỡ chữ", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = onSurfaceColor, modifier = Modifier.weight(1f))
                     Text(
-                        text = when(currentFontScale) {
-                            0.85f -> "Nhỏ"
-                            1.15f -> "Lớn"
-                            else -> "Vừa"
-                        },
-                        color = onSurfaceColor.copy(alpha = 0.7f), fontSize = 14.sp
+                        text = stringResource(R.string.appearance_font_size), 
+                        fontSize = 16.sp, 
+                        fontWeight = FontWeight.Bold, 
+                        color = onSurfaceColor,
+                        modifier = Modifier.weight(1f)
+                    )
+                    
+                    val fontSizeLabel = when(currentFontScale) {
+                        0.85f -> stringResource(R.string.font_small)
+                        1.15f -> stringResource(R.string.font_large)
+                        else -> stringResource(R.string.font_medium)
+                    }
+                    
+                    Text(
+                        text = fontSizeLabel,
+                        color = onSurfaceColor.copy(alpha = 0.7f), 
+                        fontSize = 14.sp
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null, tint = onSurfaceColor.copy(alpha = 0.5f))
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight, 
+                        contentDescription = null, 
+                        tint = onSurfaceColor.copy(alpha = 0.5f)
+                    )
                 }
 
-                // 3. Ngôn ngữ header
-                Box(modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceVariant).padding(16.dp, 8.dp)) {
-                    Text("Ngôn ngữ", color = GreenPrimary, fontWeight = FontWeight.Bold)
+                // 3. Header Ngôn ngữ
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.appearance_language_header), 
+                        color = GreenPrimary, 
+                        fontWeight = FontWeight.Bold
+                    )
                 }
 
-                // Item Ngôn ngữ
+                // Item Thay đổi ngôn ngữ
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(surfaceColor) // <--- Dùng màu động
+                        .background(surfaceColor)
                         .clickable { showLanguageDialog = true }
                         .padding(horizontal = 16.dp, vertical = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Thay đổi ngôn ngữ", fontSize = 16.sp, fontWeight = FontWeight.Medium, color = onSurfaceColor, modifier = Modifier.weight(1f))
-                    Icon(Icons.Default.Info, contentDescription = null, tint = onSurfaceColor.copy(alpha = 0.5f), modifier = Modifier.size(20.dp))
+                    Text(
+                        text = stringResource(R.string.appearance_change_language), 
+                        fontSize = 16.sp, 
+                        fontWeight = FontWeight.Medium, 
+                        color = onSurfaceColor,
+                        modifier = Modifier.weight(1f)
+                    )
+                    
+                    Icon(
+                        imageVector = Icons.Default.Info, 
+                        contentDescription = null, 
+                        tint = onSurfaceColor.copy(alpha = 0.5f), 
+                        modifier = Modifier.size(20.dp)
+                    )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text(if (currentLang == "vi") "Tiếng Việt" else "English", fontSize = 15.sp, color = onSurfaceColor)
+                    
+                    // Hiển thị ngôn ngữ đang chọn
+                    val currentLangLabel = if (currentLang == "vi") "Tiếng Việt" else "English"
+                    Text(
+                        text = currentLangLabel, 
+                        fontSize = 15.sp, 
+                        color = onSurfaceColor
+                    )
                 }
             }
             
             // Bottom Curve
             Box(
-                modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().height(120.dp).offset(y = 60.dp)
-                    .background(GreenPrimary, RoundedCornerShape(topStart = 1000.dp, topEnd = 1000.dp))
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .height(120.dp)
+                    .offset(y = 60.dp)
+                    .background(
+                        color = GreenPrimary,
+                        shape = RoundedCornerShape(topStart = 1000.dp, topEnd = 1000.dp)
+                    )
             )
         }
     }
 
-    // Dialogs (Sử dụng màu mặc định của MaterialTheme nên sẽ tự dark mode)
+    // --- Dialog Chọn Ngôn Ngữ ---
     if (showLanguageDialog) {
         AlertDialog(
             onDismissRequest = { showLanguageDialog = false },
-            title = { Text("Chọn ngôn ngữ") },
+            title = { Text(stringResource(R.string.appearance_change_language)) },
             text = {
                 Column {
-                    LanguageOption("Tiếng Việt", selected = currentLang == "vi") { viewModel.setLanguage("vi"); showLanguageDialog = false }
-                    LanguageOption("English", selected = currentLang == "en") { viewModel.setLanguage("en"); showLanguageDialog = false }
+                    LanguageOption("Tiếng Việt", selected = currentLang == "vi") {
+                        viewModel.setLanguage("vi")
+                        showLanguageDialog = false
+                    }
+                    LanguageOption("English", selected = currentLang == "en") {
+                        viewModel.setLanguage("en")
+                        showLanguageDialog = false
+                    }
                 }
             },
-            confirmButton = { TextButton(onClick = { showLanguageDialog = false }) { Text("Đóng") } }
+            confirmButton = { 
+                TextButton(onClick = { showLanguageDialog = false }) { 
+                    Text(stringResource(R.string.cancel)) 
+                } 
+            },
+            containerColor = surfaceColor,
+            titleContentColor = onSurfaceColor,
+            textContentColor = onSurfaceColor
         )
     }
 
+    // --- Dialog Chọn Cỡ Chữ ---
     if (showFontDialog) {
         AlertDialog(
             onDismissRequest = { showFontDialog = false },
-            title = { Text("Chọn cỡ chữ") },
+            title = { Text(stringResource(R.string.appearance_font_size)) },
             text = {
                 Column {
-                    FontOption("Nhỏ", selected = currentFontScale == 0.85f) { viewModel.setFontScale(0.85f); showFontDialog = false }
-                    FontOption("Vừa (Mặc định)", selected = currentFontScale == 1.0f) { viewModel.setFontScale(1.0f); showFontDialog = false }
-                    FontOption("Lớn", selected = currentFontScale == 1.15f) { viewModel.setFontScale(1.15f); showFontDialog = false }
+                    FontOption(stringResource(R.string.font_small), selected = currentFontScale == 0.85f) { 
+                        viewModel.setFontScale(0.85f)
+                        showFontDialog = false 
+                    }
+                    FontOption(stringResource(R.string.font_medium), selected = currentFontScale == 1.0f) { 
+                        viewModel.setFontScale(1.0f)
+                        showFontDialog = false 
+                    }
+                    FontOption(stringResource(R.string.font_large), selected = currentFontScale == 1.15f) { 
+                        viewModel.setFontScale(1.15f)
+                        showFontDialog = false 
+                    }
                 }
             },
-            confirmButton = { TextButton(onClick = { showFontDialog = false }) { Text("Đóng") } }
+            confirmButton = { 
+                TextButton(onClick = { showFontDialog = false }) { 
+                    Text(stringResource(R.string.cancel)) 
+                } 
+            },
+            containerColor = surfaceColor,
+            titleContentColor = onSurfaceColor,
+            textContentColor = onSurfaceColor
         )
     }
 }
@@ -167,11 +267,22 @@ fun AppearanceSettingsScreen(
 @Composable
 fun LanguageOption(text: String, selected: Boolean, onClick: () -> Unit) {
     Row(
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick).padding(8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        RadioButton(selected = selected, onClick = onClick, colors = RadioButtonDefaults.colors(selectedColor = GreenPrimary))
-        Text(text, modifier = Modifier.padding(start = 8.dp), color = MaterialTheme.colorScheme.onSurface)
+        RadioButton(
+            selected = selected, 
+            onClick = onClick, 
+            colors = RadioButtonDefaults.colors(selectedColor = GreenPrimary)
+        )
+        Text(
+            text, 
+            modifier = Modifier.padding(start = 8.dp),
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 }
 

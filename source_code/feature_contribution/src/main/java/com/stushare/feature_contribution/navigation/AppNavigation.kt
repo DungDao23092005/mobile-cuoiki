@@ -1,6 +1,8 @@
 package com.stushare.feature_contribution.navigation
 
 import com.stushare.feature_contribution.ui.account.SwitchAccountScreen
+import com.stushare.feature_contribution.ui.account.TermsOfUseScreen
+import com.stushare.feature_contribution.ui.account.PrivacyPolicyScreen
 import com.stushare.feature_contribution.ui.account.ReportViolationScreen
 import com.stushare.feature_contribution.ui.account.ContactSupportScreen
 import com.stushare.feature_contribution.ui.account.AboutAppScreen
@@ -48,6 +50,8 @@ sealed class Screen(val route: String) {
     object ContactSupport : Screen("contact_support")
     object ReportViolation : Screen("report_violation")
     object SwitchAccount : Screen("switch_account")
+    object TermsOfUse : Screen("terms_of_use")
+    object PrivacyPolicy : Screen("privacy_policy")
 }
 
 @Composable
@@ -181,6 +185,20 @@ fun AppNavigationGraph(
 
     composable(Screen.AboutApp.route) {
         AboutAppScreen(
+            onBackClick = { navController.popBackStack() },
+            onTermsClick = { navController.navigate(Screen.TermsOfUse.route) },
+            onPrivacyClick = { navController.navigate(Screen.PrivacyPolicy.route) } 
+        )
+    }
+
+    composable(Screen.TermsOfUse.route) {
+        TermsOfUseScreen(
+            onBackClick = { navController.popBackStack() }
+        )
+    }
+
+    composable(Screen.PrivacyPolicy.route) {
+        PrivacyPolicyScreen(
             onBackClick = { navController.popBackStack() }
         )
     }

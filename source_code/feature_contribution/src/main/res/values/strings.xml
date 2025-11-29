@@ -103,4 +103,83 @@
     <string name="label_edit_phone">Số điện thoại mới</string>
     <string name="title_edit_email">Cập nhật Email</string>
     <string name="label_edit_email">Địa chỉ Email</string>
+
+    <string name="noti_set_section_enable">Bật/Tắt thông báo</string>
+    <string name="noti_set_section_in_app">Thông báo trong StuShare</string>
+    <string name="noti_set_sound">Phát âm khi có thông báo</string>
+    <string name="noti_set_vibrate">Rung khi có thông báo</string>
+
+    <string name="font_small">Nhỏ</string>
+    <string name="font_medium">Vừa</string>
+    <string name="font_large">Lớn</string>
+
+    <string name="about_version_title">Phiên bản 25.10.03</string>
+    <string name="about_version_subtitle">Bạn đang dùng phiên bản mới nhất</string>
+    <string name="about_terms">Điều khoản sử dụng</string>
+    <string name="about_privacy">Chính sách bảo mật</string>
+
+    <string name="support_header">Liên hệ hỗ trợ</string>
+    <string name="support_online_channel">Kênh hỗ trợ trực tuyến</string>
+    <string name="support_chat_title">Chat với nhân viên hỗ trợ</string>
+    <string name="support_chat_desc">Phản hồi trung bình trong 5 phút</string>
+    <string name="support_email_title">Gửi email yêu cầu</string>
+    <string name="support_other_channel">Kênh khác</string>
+    <string name="support_hotline_title">Hotline</string>
+    <string name="support_hotline_desc">1900 1234 (8:00 - 17:00)</string>
+    <string name="support_faq_title">Câu hỏi thường gặp (FAQ)</string>
+    <string name="support_faq_desc">Xem các vấn đề phổ biến</string>
+
+    <string name="report_header">Báo cáo vi phạm</string>
+    <string name="report_question">Vấn đề bạn gặp phải là gì?</string>
+    <string name="report_reason_spam">Nội dung rác / Spam</string>
+    <string name="report_reason_fake">Thông tin sai lệch</string>
+    <string name="report_reason_copyright">Vi phạm bản quyền tài liệu</string>
+    <string name="report_reason_harassment">Ngôn từ đả kích / Xúc phạm</string>
+    <string name="report_reason_other">Lý do khác</string>
+    <string name="report_desc_label">Mô tả chi tiết (Tùy chọn)</string>
+    <string name="report_desc_hint">Nhập thêm thông tin để chúng tôi hỗ trợ tốt hơn...</string>
+    <string name="report_btn_submit">Gửi báo cáo</string>
+    <string name="report_success">Đã gửi báo cáo. Cảm ơn bạn!</string>
+    <string name="report_error_select">Vui lòng chọn lý do</string>
+
+    <string name="switch_acc_header">Chuyển tài khoản</string>
+    <string name="switch_acc_add">Thêm tài khoản mới</string>
+    <string name="switch_acc_switched">Đã chuyển sang: %1$s</string>
+    <string name="switch_acc_active">Đang hoạt động</string>
+
+    <string name="terms_header">Điều khoản sử dụng</string>
+    <string name="terms_content">
+        Chào mừng bạn đến với StuShare - Cộng đồng chia sẻ tài liệu học tập.\n\n
+        1. CHẤP NHẬN ĐIỀU KHOẢN\n
+        Bằng việc tải xuống, cài đặt và sử dụng StuShare, bạn đồng ý tuân thủ các Điều khoản sử dụng này. Nếu bạn không đồng ý, vui lòng không sử dụng ứng dụng.\n\n
+        2. QUYỀN SỞ HỮU TRÍ TUỆ\n
+        Mọi tài liệu bạn tải lên StuShare phải thuộc quyền sở hữu của bạn hoặc bạn có quyền hợp pháp để chia sẻ chúng. Bạn chịu trách nhiệm hoàn toàn về tính bản quyền của tài liệu mình đăng tải.\n\n
+        3. QUY TẮC ỨNG XỬ\n
+        - Không đăng tải nội dung vi phạm pháp luật, đồi trụy, kích động bạo lực hoặc xúc phạm người khác.\n
+        - Không spam, quảng cáo trái phép.\n
+        - Tôn trọng cộng đồng và các thành viên khác.\n\n
+        4. MIỄN TRỪ TRÁCH NHIỆM\n
+        StuShare là nền tảng trung gian chia sẻ. Chúng tôi không chịu trách nhiệm về tính chính xác, độ tin cậy của các tài liệu do người dùng đăng tải.\n\n
+        5. XỬ LÝ VI PHẠM\n
+        Chúng tôi có quyền xóa bỏ bất kỳ nội dung nào vi phạm điều khoản và khóa tài khoản người dùng mà không cần báo trước.
+    </string>
+
+    <string name="privacy_header">Chính sách bảo mật</string>
+    <string name="privacy_content">
+        StuShare cam kết bảo vệ quyền riêng tư của bạn.\n\n
+        1. THÔNG TIN THU THẬP\n
+        Chúng tôi thu thập các thông tin sau để cung cấp dịch vụ:\n
+        - Thông tin cá nhân: Tên, Email, Ảnh đại diện (khi bạn đăng nhập).\n
+        - Dữ liệu sử dụng: Lịch sử tải tài liệu, danh sách tài liệu đã lưu.\n\n
+        2. MỤC ĐÍCH SỬ DỤNG\n
+        - Quản lý tài khoản và xác thực người dùng.\n
+        - Cải thiện trải nghiệm và gợi ý tài liệu phù hợp.\n
+        - Gửi thông báo về các cập nhật quan trọng.\n\n
+        3. BẢO MẬT DỮ LIỆU\n
+        Mọi dữ liệu của bạn đều được mã hóa và lưu trữ an toàn trên máy chủ. Chúng tôi áp dụng các biện pháp kỹ thuật tiên tiến để ngăn chặn truy cập trái phép.\n\n
+        4. CHIA SẺ THÔNG TIN\n
+        Chúng tôi cam kết KHÔNG bán, trao đổi hoặc chia sẻ thông tin cá nhân của bạn cho bên thứ ba, trừ khi có yêu cầu từ cơ quan pháp luật.\n\n
+        5. QUYỀN CỦA BẠN\n
+        Bạn có quyền truy cập, chỉnh sửa hoặc yêu cầu xóa dữ liệu cá nhân của mình bất cứ lúc nào thông qua mục Cài đặt trong ứng dụng.
+    </string>
 </resources>
